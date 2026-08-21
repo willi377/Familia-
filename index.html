@@ -1,0 +1,3903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>FAMILIA · Tus recuerdos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+                   TEMA GLASSMORPHISM - VARIABLES
+                   ============================================================ */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --glass-blur: 20px;
+            --glass-radius: 20px;
+
+            --color-primary: #6c5ce7;
+            --color-primary-dark: #5a4bd1;
+            --color-primary-light: #a29bfe;
+            --color-secondary: #fd79a8;
+            --color-accent: #00b894;
+            --color-bg-start: #0c0e1a;
+            --color-bg-end: #1a1a3e;
+            --color-text: #ffffff;
+            --color-text-secondary: rgba(255, 255, 255, 0.7);
+            --color-text-muted: rgba(255, 255, 255, 0.4);
+            --color-shadow: rgba(108, 92, 231, 0.3);
+            --color-error: #ff6b6b;
+            --color-success: #55efc4;
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --nav-height: 72px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        [data-theme="light"] {
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.35);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --color-bg-start: #e8e4f0;
+            --color-bg-end: #d5cfe8;
+            --color-text: #1a1a2e;
+            --color-text-secondary: rgba(26, 26, 46, 0.7);
+            --color-text-muted: rgba(26, 26, 46, 0.4);
+        }
+
+        /* ---------- RESET ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            background-attachment: fixed;
+            padding: 0;
+            margin: 0;
+            transition: background 0.6s ease;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-text-muted);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+                   CONTENEDOR PRINCIPAL
+                   ============================================================ */
+        .app-container {
+            max-width: 430px;
+            width: 100%;
+            min-height: 100vh;
+            background: transparent;
+            position: relative;
+            padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================================
+                   PANTALLA DE LOGIN (FONDO COMPLETO)
+                   ============================================================ */
+        #login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+            position: relative;
+            z-index: 10;
+            animation: fadeUp 0.6s ease;
+        }
+
+        #login-screen::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.15), transparent 70%);
+            pointer-events: none;
+            animation: floatBg 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBg {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        /* ----- LOGO ANIMADO ----- */
+        .login-logo {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
+            cursor: default;
+        }
+
+        .login-logo svg {
+            width: 100%;
+            height: 100%;
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        .login-logo .logo-ring {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 2;
+        }
+
+        .login-logo .logo-ring-inner {
+            fill: none;
+            stroke: var(--color-primary-light);
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: logoDraw 2s ease forwards 0.5s;
+        }
+
+        .login-logo .logo-icon {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: logoDraw 1.8s ease forwards 0.8s;
+        }
+
+        .login-logo .logo-shine {
+            fill: rgba(255, 255, 255, 0.05);
+            animation: logoShine 4s ease-in-out infinite;
+        }
+
+        @keyframes logoDraw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes logoFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes logoShine {
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.95);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        /* ----- NOMBRE DE LA APP ANIMADO ----- */
+        .app-name {
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin-bottom: 4px;
+            display: flex;
+            gap: 2px;
+            overflow: hidden;
+        }
+
+        .app-name .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: letterReveal 0.6s ease forwards;
+            background: linear-gradient(135deg, #fff 40%, var(--color-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-name .letter:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .app-name .letter:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        .app-name .letter:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .app-name .letter:nth-child(4) {
+            animation-delay: 0.25s;
+        }
+        .app-name .letter:nth-child(5) {
+            animation-delay: 0.3s;
+        }
+        .app-name .letter:nth-child(6) {
+            animation-delay: 0.35s;
+        }
+        .app-name .letter:nth-child(7) {
+            animation-delay: 0.4s;
+        }
+        .app-name .letter:nth-child(8) {
+            animation-delay: 0.45s;
+        }
+
+        .app-name .letter.dot {
+            -webkit-text-fill-color: var(--color-primary-light);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes letterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-tagline {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+            margin-bottom: 32px;
+            letter-spacing: 0.3px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.8s;
+        }
+
+        /* ----- TARJETA GLASSMORPHISM LOGIN ----- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--glass-radius);
+            box-shadow: var(--glass-shadow);
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 0.6s ease 0.3s both;
+        }
+
+        .glass-card .error-box {
+            background: rgba(255, 107, 107, 0.12);
+            border: 1px solid rgba(255, 107, 107, 0.25);
+            color: var(--color-error);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .glass-card .error-box.show {
+            display: block;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .glass-card .success-box {
+            background: rgba(85, 239, 196, 0.12);
+            border: 1px solid rgba(85, 239, 196, 0.25);
+            color: var(--color-success);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .glass-card .success-box.show {
+            display: block;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .glass-card .form-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .glass-card .form-group .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            font-size: 16px;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .glass-card .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--color-text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .glass-card .form-group input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .glass-card .form-group input:focus {
+            border-color: var(--color-primary-light);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+        }
+
+        .glass-card .form-group .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: var(--transition);
+        }
+
+        .glass-card .form-group .password-toggle:hover {
+            color: var(--color-text);
+        }
+
+        .glass-card .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin: -4px 0 16px;
+        }
+
+        .glass-card .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+        }
+
+        .glass-card .form-options label input[type="checkbox"] {
+            accent-color: var(--color-primary);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .glass-card .form-options a {
+            color: var(--color-primary-light);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .glass-card .form-options a:hover {
+            opacity: 0.7;
+        }
+
+        .glass-card .btn-primary-glass {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card .btn-primary-glass:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px var(--color-shadow);
+        }
+
+        .glass-card .btn-primary-glass:active {
+            transform: scale(0.97);
+        }
+
+        .glass-card .btn-primary-glass .btn-loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        .glass-card .btn-primary-glass.loading .btn-text {
+            display: none;
+        }
+        .glass-card .btn-primary-glass.loading .btn-loader {
+            display: block;
+        }
+        .glass-card .btn-primary-glass.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .glass-card .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            color: var(--color-text-muted);
+            font-size: 12px;
+        }
+
+        .glass-card .divider::before,
+        .glass-card .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        .glass-card .btn-secondary-glass {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: var(--color-text);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .glass-card .btn-secondary-glass:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-primary-light);
+        }
+
+        /* ============================================================
+                   PANTALLA DE REGISTRO
+                   ============================================================ */
+        #register-screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 20;
+            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            animation: fadeUp 0.4s ease;
+        }
+
+        #register-screen.active {
+            display: flex;
+        }
+
+        #register-screen .back-to-login {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 18px;
+            z-index: 5;
+        }
+
+        #register-screen .back-to-login:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        #register-screen .register-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--color-text);
+        }
+
+        #register-screen .register-subtitle {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* ============================================================
+                   PANTALLA DE BIENVENIDA
+                   ============================================================ */
+        #welcome-screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 25;
+            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            animation: fadeUp 0.6s ease;
+            text-align: center;
+        }
+
+        #welcome-screen.active {
+            display: flex;
+        }
+
+        #welcome-screen .welcome-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--color-primary-light);
+            margin-bottom: 24px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        #welcome-screen .welcome-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-text);
+            margin-bottom: 8px;
+        }
+
+        #welcome-screen .welcome-desc {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            max-width: 320px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        #welcome-screen .welcome-creator {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-bottom: 32px;
+        }
+
+        #welcome-screen .welcome-creator strong {
+            color: var(--color-primary-light);
+        }
+
+        #welcome-screen .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        #welcome-screen .welcome-buttons .btn-primary-glass {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        #welcome-screen .welcome-buttons .btn-primary-glass:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px var(--color-shadow);
+        }
+
+        #welcome-screen .welcome-buttons .btn-secondary-glass {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: var(--color-text);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        #welcome-screen .welcome-buttons .btn-secondary-glass:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-primary-light);
+        }
+
+        /* ============================================================
+                   TUTORIAL INTERACTIVO
+                   ============================================================ */
+        #tutorial-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 60;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        #tutorial-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tutorial-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--glass-radius);
+            box-shadow: var(--glass-shadow);
+            padding: 32px 24px;
+            max-width: 380px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .tutorial-card .tutorial-step-indicator {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .tutorial-card .tutorial-icon {
+            font-size: 32px;
+            color: var(--color-primary-light);
+            margin-bottom: 12px;
+        }
+
+        .tutorial-card .tutorial-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 8px;
+        }
+
+        .tutorial-card .tutorial-desc {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-card .tutorial-progress {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-card .tutorial-progress .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-text-muted);
+            transition: var(--transition);
+        }
+
+        .tutorial-card .tutorial-progress .dot.active {
+            background: var(--color-primary-light);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .tutorial-card .tutorial-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tutorial-card .tutorial-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .tutorial-card .tutorial-buttons .btn-skip {
+            background: transparent;
+            color: var(--color-text-muted);
+            border: 1px solid var(--glass-border);
+        }
+
+        .tutorial-card .tutorial-buttons .btn-skip:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tutorial-card .tutorial-buttons .btn-next {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+        }
+
+        .tutorial-card .tutorial-buttons .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--color-shadow);
+        }
+
+        .tutorial-card .tutorial-buttons .btn-prev {
+            background: var(--glass-bg);
+            color: var(--color-text);
+            border: 1px solid var(--glass-border);
+        }
+
+        .tutorial-card .tutorial-buttons .btn-prev:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ============================================================
+                   APP PRINCIPAL (CONTENIDO TRAS EL LOGIN)
+                   ============================================================ */
+        #app {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            background: transparent;
+            position: relative;
+            z-index: 5;
+        }
+
+        #app.active {
+            display: flex;
+        }
+
+        /* ---------- HEADER GLASS ---------- */
+        .app-header {
+            padding: 16px 20px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 15;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            margin: 0 0 8px 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid var(--glass-border);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .header-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .header-greeting .greeting-text {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+
+        .header-greeting .user-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text);
+            line-height: 1.2;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--color-text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text);
+            transform: scale(1.05);
+        }
+
+        .header-btn:active {
+            transform: scale(0.92);
+        }
+
+        .header-btn .badge-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--color-error);
+            border-radius: 50%;
+            border: 2px solid var(--glass-bg);
+        }
+
+        /* ---------- CONTENIDO PRINCIPAL ---------- */
+        .main-content {
+            flex: 1;
+            padding: 0 16px 16px;
+        }
+
+        /* ============================================================
+                   GLASSMORPHISM PARA TODAS LAS SECCIONES
+                   ============================================================ */
+        .glass-card-sm {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--glass-shadow);
+            padding: 20px;
+        }
+
+        /* ============================================================
+                   SECCIÓN: INICIO
+                   ============================================================ */
+        #section-home {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 184, 148, 0.15));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 24px 24px 28px;
+            margin: 8px 0 20px;
+            color: var(--color-text);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .hero-card::after {
+            content: '\f030';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-size: 80px;
+            opacity: 0.06;
+            color: #fff;
+        }
+
+        .hero-card .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-card .hero-subtitle {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        .hero-card .hero-stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .hero-card .hero-stats .stat .number {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .hero-card .hero-stats .stat .label {
+            font-size: 12px;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .quick-actions .qa-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 8px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--glass-shadow);
+            color: var(--color-text-secondary);
+            font-family: inherit;
+        }
+
+        .quick-actions .qa-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-actions .qa-item:active {
+            transform: scale(0.94);
+        }
+
+        .quick-actions .qa-item .qa-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+
+        .quick-actions .qa-item .qa-icon.primary {
+            background: rgba(108, 92, 231, 0.2);
+            color: var(--color-primary-light);
+        }
+
+        .quick-actions .qa-item .qa-icon.secondary {
+            background: rgba(253, 121, 168, 0.2);
+            color: var(--color-secondary);
+        }
+
+        .quick-actions .qa-item .qa-icon.green {
+            background: rgba(0, 184, 148, 0.2);
+            color: var(--color-accent);
+        }
+
+        .quick-actions .qa-item .qa-icon.purple {
+            background: rgba(162, 155, 254, 0.2);
+            color: var(--color-primary-light);
+        }
+
+        .quick-actions .qa-item .qa-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0 12px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .section-header .see-all {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-primary-light);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .section-header .see-all:hover {
+            opacity: 0.7;
+        }
+
+        .featured-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0 12px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .featured-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .featured-item {
+            min-width: 160px;
+            max-width: 160px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            scroll-snap-align: start;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-item:active {
+            transform: scale(0.96);
+        }
+
+        .featured-item .thumb {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+        }
+
+        .featured-item .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-item .info {
+            padding: 10px 12px 12px;
+        }
+
+        .featured-item .info .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .featured-item .info .count {
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .photo-grid .photo-item {
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .photo-grid .photo-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-grid .photo-item:active {
+            transform: scale(0.94);
+        }
+
+        .photo-grid .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-grid .photo-item .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 8px 8px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .photo-grid .photo-item:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-grid .photo-item .photo-overlay .icon-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .photo-grid .photo-item .photo-overlay .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ============================================================
+                   SECCIÓN: FOTOS
+                   ============================================================ */
+        #section-photos {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .photos-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .photos-toolbar .toolbar-btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--color-text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .photos-toolbar .toolbar-btn:hover {
+            border-color: var(--color-primary-light);
+            color: var(--color-text);
+        }
+
+        .photos-toolbar .toolbar-btn.active {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .photos-search {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .photos-search input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--color-text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .photos-search input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .photos-search input:focus {
+            border-color: var(--color-primary-light);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+        }
+
+        .photos-search .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+        }
+
+        /* ============================================================
+                   SECCIÓN: ÁLBUMES
+                   ============================================================ */
+        #section-albums {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .albums-grid .album-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .albums-grid .album-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .albums-grid .album-card:active {
+            transform: scale(0.96);
+        }
+
+        .albums-grid .album-card .album-cover {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+        }
+
+        .albums-grid .album-card .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .albums-grid .album-card .album-info {
+            padding: 10px 12px 14px;
+        }
+
+        .albums-grid .album-card .album-info .album-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .albums-grid .album-card .album-info .album-meta {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+                   SECCIÓN: FAMILIA
+                   ============================================================ */
+        #section-family {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .family-header-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .family-header-actions .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--color-text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .family-header-actions .action-btn:hover {
+            border-color: var(--color-primary-light);
+            color: var(--color-text);
+        }
+
+        .family-header-actions .action-btn.primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .family-header-actions .action-btn.primary:hover {
+            box-shadow: 0 4px 16px var(--color-shadow);
+        }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .members-list .member-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .members-list .member-item:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .members-list .member-item .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .members-list .member-item .member-info {
+            flex: 1;
+        }
+
+        .members-list .member-item .member-info .member-name {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .members-list .member-item .member-info .member-role {
+            font-size: 12px;
+            color: var(--color-text-muted);
+        }
+
+        .members-list .member-item .member-badge {
+            font-size: 11px;
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(108, 92, 231, 0.15);
+            color: var(--color-primary-light);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+                   SECCIÓN: PERFIL
+                   ============================================================ */
+        #section-profile {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+            margin-bottom: 20px;
+        }
+
+        .profile-card .profile-avatar-large {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0 auto 12px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 8px 24px var(--color-shadow);
+        }
+
+        .profile-card .profile-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .profile-card .profile-email {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+
+        .profile-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--color-text);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .profile-menu .menu-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+        }
+
+        .profile-menu .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .profile-menu .menu-item .menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .profile-menu .menu-item .menu-icon.primary {
+            background: rgba(108, 92, 231, 0.15);
+            color: var(--color-primary-light);
+        }
+
+        .profile-menu .menu-item .menu-icon.secondary {
+            background: rgba(253, 121, 168, 0.15);
+            color: var(--color-secondary);
+        }
+
+        .profile-menu .menu-item .menu-icon.green {
+            background: rgba(0, 184, 148, 0.15);
+            color: var(--color-accent);
+        }
+
+        .profile-menu .menu-item .menu-icon.purple {
+            background: rgba(162, 155, 254, 0.15);
+            color: var(--color-primary-light);
+        }
+
+        .profile-menu .menu-item .menu-icon.red {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--color-error);
+        }
+
+        .profile-menu .menu-item .menu-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .profile-menu .menu-item .menu-arrow {
+            color: var(--color-text-muted);
+            font-size: 14px;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            margin-top: 12px;
+        }
+
+        .theme-toggle .toggle-label {
+            flex: 1;
+            font-size: 15px;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .theme-toggle .toggle-switch {
+            width: 48px;
+            height: 28px;
+            border-radius: 14px;
+            background: var(--color-text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            border: none;
+            padding: 0;
+        }
+
+        .theme-toggle .toggle-switch .toggle-knob {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle .toggle-switch.active {
+            background: var(--color-primary);
+        }
+
+        .theme-toggle .toggle-switch.active .toggle-knob {
+            left: 23px;
+        }
+
+        /* ============================================================
+                   TOAST, MODALES, FAB, NAV, VISOR
+                   ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--nav-height) + var(--safe-bottom) + 24px);
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--color-text);
+            padding: 14px 24px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--glass-shadow);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            max-width: 90%;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 28px 24px 40px;
+            max-width: 430px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--color-text);
+        }
+
+        .modal-content .modal-handle {
+            width: 40px;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--color-text-muted);
+            margin: 0 auto 20px;
+            opacity: 0.3;
+        }
+
+        .modal-content .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+
+        .modal-content input,
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--color-text);
+            font-size: 15px;
+            font-family: inherit;
+            margin-bottom: 12px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .modal-content input::placeholder,
+        .modal-content textarea::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus,
+        .modal-content textarea:focus {
+            border-color: var(--color-primary-light);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+
+        .modal-content textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-content .btn-primary-glass {
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .modal-content .btn-primary-glass:hover {
+            box-shadow: 0 4px 16px var(--color-shadow);
+        }
+
+        .modal-content .btn-secondary-glass {
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: var(--color-text);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .modal-content .btn-secondary-glass:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .fab-menu {
+            position: fixed;
+            bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
+            right: 20px;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 12px;
+            z-index: 30;
+        }
+
+        .fab-menu .fab-item {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--glass-shadow);
+            transform: scale(0);
+            opacity: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+        }
+
+        .fab-menu .fab-item.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .fab-menu .fab-item:hover {
+            transform: scale(1.08);
+        }
+
+        .fab-menu .fab-item:active {
+            transform: scale(0.92);
+        }
+
+        .fab-menu .fab-item.primary {
+            background: var(--color-primary);
+        }
+
+        .fab-menu .fab-item.secondary {
+            background: var(--color-secondary);
+        }
+
+        .fab-menu .fab-item.green {
+            background: var(--color-accent);
+        }
+
+        .fab-menu .fab-item.purple {
+            background: #9b59b6;
+        }
+
+        .fab-main {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 32px var(--color-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 48px var(--color-shadow);
+        }
+
+        .fab-main:active {
+            transform: scale(0.92);
+        }
+
+        .fab-main.open {
+            transform: rotate(45deg);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 6px 0 calc(8px + var(--safe-bottom));
+            z-index: 40;
+            max-width: 430px;
+            margin: 0 auto;
+            transition: background 0.4s ease;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px 12px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 22px;
+            transition: var(--transition);
+        }
+
+        .bottom-nav .nav-item .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: var(--color-primary-light);
+        }
+
+        .bottom-nav .nav-item.active i {
+            transform: translateY(-2px);
+        }
+
+        .photo-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 70;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex-direction: column;
+        }
+
+        .photo-viewer.active {
+            display: flex;
+        }
+
+        .photo-viewer .viewer-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 22px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-viewer .viewer-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-viewer .viewer-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: var(--radius-sm);
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .photo-viewer .viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .photo-viewer .viewer-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-viewer .viewer-nav.prev {
+            left: 12px;
+        }
+
+        .photo-viewer .viewer-nav.next {
+            right: 12px;
+        }
+
+        .photo-viewer .viewer-info-bottom {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .photo-viewer .viewer-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .photo-viewer .viewer-actions .v-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+        .photo-viewer .viewer-actions .v-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ============================================================
+                   ANIMACIONES
+                   ============================================================ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                   ============================================================ */
+        @media (max-width: 430px) {
+            .app-container {
+                max-width: 100%;
+            }
+
+            .quick-actions {
+                gap: 6px;
+            }
+
+            .quick-actions .qa-item {
+                padding: 10px 6px;
+            }
+
+            .quick-actions .qa-item .qa-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+
+            .photo-grid {
+                gap: 6px;
+            }
+
+            .albums-grid {
+                gap: 8px;
+            }
+
+            .featured-item {
+                min-width: 130px;
+                max-width: 130px;
+            }
+
+            .glass-card {
+                padding: 24px 16px;
+            }
+
+            .app-name {
+                font-size: 30px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .app-container {
+                max-width: 480px;
+                border-radius: 28px;
+                margin: 20px auto;
+                min-height: calc(100vh - 40px);
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            body {
+                padding: 0 20px;
+                background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            }
+
+            .bottom-nav {
+                border-radius: 0 0 28px 28px;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .albums-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            #login-screen,
+            #register-screen,
+            #welcome-screen {
+                min-height: calc(100vh - 40px);
+                border-radius: 28px;
+            }
+
+            .app-header {
+                border-radius: 28px 28px 0 0;
+                margin: 0;
+            }
+        }
+
+        /* ============================================================
+                   AQUÍ TERMINA LA PARTE 1/3
+                   CONTINÚA EN LA PARTE 2/3
+                   ============================================================ */
+    </style>
+</head>
+<body>
+
+    <!-- ====== TOAST ====== -->
+    <div id="toast" class="toast">Listo</div>
+
+    <!-- ====== APP CONTAINER ====== -->
+    <div class="app-container" id="appContainer">
+
+        <!-- ====== PANTALLA DE LOGIN ====== -->
+        <div id="login-screen">
+            <!-- Logo SVG -->
+            <div class="login-logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="logo-ring" cx="50" cy="50" r="45" />
+                    <circle class="logo-ring-inner" cx="50" cy="50" r="38" />
+                    <path class="logo-icon" d="M35 30 L35 70 L50 70 L50 45 L65 45 L65 30 Z" />
+                    <path class="logo-icon" d="M50 45 L65 60 L65 70 L50 70 Z" />
+                    <path class="logo-icon" d="M35 45 L35 55 L50 55 L50 45 Z" />
+                    <circle class="logo-shine" cx="65" cy="30" r="6" />
+                </svg>
+            </div>
+
+            <div class="app-name">
+                <span class="letter">F</span>
+                <span class="letter">A</span>
+                <span class="letter">M</span>
+                <span class="letter">I</span>
+                <span class="letter">L</span>
+                <span class="letter">I</span>
+                <span class="letter">A</span>
+                <span class="letter dot">.</span>
+            </div>
+
+            <div class="app-tagline">Tus recuerdos, todos en un solo lugar</div>
+
+            <div class="glass-card">
+                <div class="error-box" id="loginError">Credenciales incorrectas</div>
+                <div class="success-box" id="loginSuccess">¡Bienvenido de nuevo!</div>
+
+                <form id="loginForm" autocomplete="off">
+                    <div class="form-group">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="loginEmail" placeholder="Correo electrónico" required />
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" placeholder="Contraseña" required />
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="rememberMe" /> Recordarme
+                        </label>
+                        <a href="#" id="forgotPassword">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary-glass" id="btnLogin">
+                        <span class="btn-text">Iniciar sesión</span>
+                        <span class="btn-loader"></span>
+                    </button>
+                </form>
+
+                <div class="divider">o</div>
+
+                <button class="btn-secondary-glass" id="btnShowRegister">Crear una cuenta</button>
+            </div>
+        </div>
+
+        <!-- ====== PANTALLA DE REGISTRO ====== -->
+        <div id="register-screen">
+            <button class="back-to-login" id="btnBackToLogin">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+
+            <div class="register-title">Crear cuenta</div>
+            <div class="register-subtitle">Comienza a guardar tus recuerdos</div>
+
+            <div class="glass-card">
+                <div class="error-box" id="registerError">Error en el registro</div>
+                <div class="success-box" id="registerSuccess">¡Cuenta creada exitosamente!</div>
+
+                <form id="registerForm" autocomplete="off">
+                    <div class="form-group">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="registerName" placeholder="Nombre completo" required />
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="registerEmail" placeholder="Correo electrónico" required />
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="registerPassword" placeholder="Contraseña (mínimo 6 caracteres)" required />
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-check-circle input-icon"></i>
+                        <input type="password" id="registerConfirm" placeholder="Confirmar contraseña" required />
+                    </div>
+
+                    <div class="form-options" style="margin-bottom:16px;">
+                        <label>
+                            <input type="checkbox" id="acceptTerms" required /> Acepto los términos y condiciones
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary-glass" id="btnRegister">
+                        <span class="btn-text">Crear cuenta</span>
+                        <span class="btn-loader"></span>
+                    </button>
+                </form>
+
+                <div class="divider">¿Ya tienes cuenta?</div>
+
+                <button class="btn-secondary-glass" id="btnBackToLoginFromRegister">Iniciar sesión</button>
+            </div>
+        </div>
+
+        <!-- ====== PANTALLA DE BIENVENIDA ====== -->
+        <div id="welcome-screen">
+            <div class="welcome-icon"><i class="fas fa-images"></i></div>
+            <div class="welcome-title">Bienvenido a FAMILIA</div>
+            <div class="welcome-desc">Un espacio privado para guardar, organizar y compartir tus recuerdos familiares.</div>
+            <div class="welcome-creator">Creada por <strong>Edier W.</strong></div>
+
+            <div class="welcome-buttons">
+                <button class="btn-primary-glass" id="btnStartTutorial">
+                    <i class="fas fa-play-circle" style="margin-right:8px;"></i> Ver tutorial
+                </button>
+                <button class="btn-secondary-glass" id="btnSkipTutorial">Omitir por ahora</button>
+            </div>
+        </div>
+
+        <!-- ====== TUTORIAL INTERACTIVO ====== -->
+        <div id="tutorial-overlay">
+            <div class="tutorial-card" id="tutorialCard">
+                <div class="tutorial-step-indicator" id="tutorialStep">Paso 1 de 6</div>
+                <div class="tutorial-icon" id="tutorialIcon"><i class="fas fa-home"></i></div>
+                <div class="tutorial-title" id="tutorialTitle">Inicio</div>
+                <div class="tutorial-desc" id="tutorialDesc">Aquí encontrarás un resumen de tus recuerdos, fotos recientes y álbumes destacados.</div>
+                <div class="tutorial-progress" id="tutorialProgress">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <div class="tutorial-buttons">
+                    <button class="btn-skip" id="tutorialSkip">Saltar</button>
+                    <button class="btn-prev" id="tutorialPrev" style="display:none;">Anterior</button>
+                    <button class="btn-next" id="tutorialNext">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== APP PRINCIPAL ====== -->
+        <div id="app">
+
+            <!-- HEADER -->
+            <header class="app-header" id="appHeader">
+                <div class="header-left">
+                    <div class="header-avatar" id="headerAvatar">M</div>
+                    <div class="header-greeting">
+                        <span class="greeting-text" id="greetingText">Buenos días</span>
+                        <span class="user-name" id="userName">Familia Vivas</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" id="btnNotifications" title="Notificaciones">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+                    <button class="header-btn" id="btnThemeToggle" title="Cambiar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTENIDO -->
+            <div class="main-content">
+
+                <!-- SECCIÓN: INICIO -->
+                <section id="section-home">
+                    <div class="hero-card">
+                        <div class="hero-title">Recuerdos de hoy</div>
+                        <div class="hero-subtitle" id="todayDate">20 de agosto de 2026</div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="number" id="statPhotos">0</span>
+                                <span class="label">Fotos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number" id="statAlbums">0</span>
+                                <span class="label">Álbumes</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number" id="statMembers">0</span>
+                                <span class="label">Miembros</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <button class="qa-item" id="qaUpload">
+                            <div class="qa-icon primary"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <span class="qa-label">Subir</span>
+                        </button>
+                        <button class="qa-item" id="qaAlbum">
+                            <div class="qa-icon secondary"><i class="fas fa-folder-plus"></i></div>
+                            <span class="qa-label">Álbum</span>
+                        </button>
+                        <button class="qa-item" id="qaFavorites">
+                            <div class="qa-icon green"><i class="fas fa-heart"></i></div>
+                            <span class="qa-label">Favoritos</span>
+                        </button>
+                        <button class="qa-item" id="qaFamily">
+                            <div class="qa-icon purple"><i class="fas fa-users"></i></div>
+                            <span class="qa-label">Familia</span>
+                        </button>
+                    </div>
+
+                    <div class="section-header">
+                        <h2>Recuerdos destacados</h2>
+                        <button class="see-all" id="seeAllMemories">Ver todos</button>
+                    </div>
+                    <div class="featured-scroll" id="featuredScroll"></div>
+
+                    <div class="section-header">
+                        <h2>Fotos recientes</h2>
+                        <button class="see-all" id="seeAllPhotos">Ver todas</button>
+                    </div>
+                    <div class="photo-grid" id="homePhotoGrid"></div>
+
+                    <div class="section-header">
+                        <h2>Álbumes recientes</h2>
+                        <button class="see-all" id="seeAllAlbumsHome">Ver todos</button>
+                    </div>
+                    <div class="featured-scroll" id="homeAlbumScroll"></div>
+                </section>
+
+                <!-- SECCIÓN: FOTOS -->
+                <section id="section-photos">
+                    <div class="section-header" style="margin-top:0;">
+                        <h2>Todas las fotos</h2>
+                        <span style="font-size:13px;color:var(--color-text-muted);" id="photoCount">0 fotos</span>
+                    </div>
+                    <div class="photos-toolbar" id="photosToolbar">
+                        <button class="toolbar-btn active" data-filter="all">Todas</button>
+                        <button class="toolbar-btn" data-filter="recent">Recientes</button>
+                        <button class="toolbar-btn" data-filter="favorites">Favoritas</button>
+                    </div>
+                    <div class="photos-search">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="photoSearch" placeholder="Buscar fotos..." />
+                    </div>
+                    <div class="photo-grid" id="allPhotoGrid"></div>
+                </section>
+
+                <!-- SECCIÓN: ÁLBUMES -->
+                <section id="section-albums">
+                    <div class="section-header" style="margin-top:0;">
+                        <h2>Álbumes</h2>
+                        <button class="see-all" id="btnCreateAlbum">+ Crear</button>
+                    </div>
+                    <div class="albums-grid" id="albumsGrid"></div>
+                </section>
+
+                <!-- SECCIÓN: FAMILIA -->
+                <section id="section-family">
+                    <div class="section-header" style="margin-top:0;">
+                        <h2>Familia</h2>
+                        <span style="font-size:13px;color:var(--color-text-muted);" id="memberCount">0 miembros</span>
+                    </div>
+                    <div class="family-header-actions">
+                        <button class="action-btn primary" id="btnInviteMember">
+                            <i class="fas fa-user-plus"></i> Invitar
+                        </button>
+                        <button class="action-btn" id="btnFamilySettings">
+                            <i class="fas fa-cog"></i> Ajustes
+                        </button>
+                    </div>
+                    <div class="members-list" id="membersList"></div>
+                </section>
+
+                <!-- SECCIÓN: PERFIL -->
+                <section id="section-profile">
+                    <div class="profile-card">
+                        <div class="profile-avatar-large" id="profileAvatar">M</div>
+                        <div class="profile-name" id="profileName">María Vivas</div>
+                        <div class="profile-email" id="profileEmail">maria@familia.com</div>
+                    </div>
+                    <div class="profile-menu">
+                        <button class="menu-item" id="menuEditProfile">
+                            <div class="menu-icon primary"><i class="fas fa-user-edit"></i></div>
+                            <span class="menu-text">Editar perfil</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                        <button class="menu-item" id="menuPrivacy">
+                            <div class="menu-icon secondary"><i class="fas fa-shield-alt"></i></div>
+                            <span class="menu-text">Privacidad</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                        <button class="menu-item" id="menuNotifications">
+                            <div class="menu-icon purple"><i class="fas fa-bell"></i></div>
+                            <span class="menu-text">Notificaciones</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                        <button class="menu-item" id="menuSecurity">
+                            <div class="menu-icon green"><i class="fas fa-lock"></i></div>
+                            <span class="menu-text">Seguridad</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                        <button class="menu-item" id="menuHelp">
+                            <div class="menu-icon primary"><i class="fas fa-question-circle"></i></div>
+                            <span class="menu-text">Ayuda y tutorial</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                        <div class="theme-toggle">
+                            <span class="toggle-label"><i class="fas fa-moon" style="margin-right:8px;"></i>Tema oscuro</span>
+                            <button class="toggle-switch" id="themeSwitch">
+                                <span class="toggle-knob"></span>
+                            </button>
+                        </div>
+                        <button class="menu-item" id="menuLogout" style="margin-top:12px;">
+                            <div class="menu-icon red"><i class="fas fa-sign-out-alt"></i></div>
+                            <span class="menu-text" style="color:var(--color-error);">Cerrar sesión</span>
+                            <i class="fas fa-chevron-right menu-arrow"></i>
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FAB MENU ====== -->
+    <div class="fab-menu" id="fabMenu">
+        <button class="fab-item purple" data-action="invite"><i class="fas fa-user-plus"></i></button>
+        <button class="fab-item green" data-action="album"><i class="fas fa-folder-plus"></i></button>
+        <button class="fab-item secondary" data-action="camera"><i class="fas fa-camera"></i></button>
+        <button class="fab-item primary" data-action="upload"><i class="fas fa-cloud-upload-alt"></i></button>
+        <button class="fab-main" id="fabMain"><i class="fas fa-plus"></i></button>
+    </div>
+
+    <!-- ====== BOTTOM NAV ====== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-section="home"><i class="fas fa-home"></i><span class="nav-label">Inicio</span></button>
+        <button class="nav-item" data-section="photos"><i class="fas fa-images"></i><span class="nav-label">Fotos</span></button>
+        <button class="nav-item" data-section="albums"><i class="fas fa-folder"></i><span class="nav-label">Álbumes</span></button>
+        <button class="nav-item" data-section="family"><i class="fas fa-users"></i><span class="nav-label">Familia</span></button>
+        <button class="nav-item" data-section="profile"><i class="fas fa-user"></i><span class="nav-label">Perfil</span></button>
+    </nav>
+
+    <!-- ====== VISOR ====== -->
+    <div class="photo-viewer" id="photoViewer">
+        <button class="viewer-close" id="viewerClose"><i class="fas fa-times"></i></button>
+        <button class="viewer-nav prev" id="viewerPrev"><i class="fas fa-chevron-left"></i></button>
+        <button class="viewer-nav next" id="viewerNext"><i class="fas fa-chevron-right"></i></button>
+        <img class="viewer-image" id="viewerImage" src="" alt="Foto" />
+        <div class="viewer-info-bottom" id="viewerInfo">Recuerdo familiar</div>
+        <div class="viewer-actions">
+            <button class="v-btn" id="viewerFavorite"><i class="fas fa-heart"></i> Favorito</button>
+            <button class="v-btn" id="viewerDownload"><i class="fas fa-download"></i> Descargar</button>
+            <button class="v-btn" id="viewerShare"><i class="fas fa-share-alt"></i> Compartir</button>
+        </div>
+    </div>
+
+    <!-- ====== MODALES ====== -->
+    <div class="modal-overlay" id="modalInvite">
+        <div class="modal-content">
+            <div class="modal-handle"></div>
+            <div class="modal-title">Invitar familiar</div>
+            <p style="color:var(--color-text-secondary);margin-bottom:16px;">Envía una invitación para que tu familiar se una a la familia.</p>
+            <input type="email" id="inviteEmail" placeholder="Email del familiar" />
+            <select id="inviteRole">
+                <option value="ADULTO">Adulto</option>
+                <option value="JOVEN">Joven</option>
+                <option value="INVITADO">Invitado</option>
+            </select>
+            <div style="display:flex;gap:10px;">
+                <button class="btn-secondary-glass" id="modalInviteCancel" style="flex:1;">Cancelar</button>
+                <button class="btn-primary-glass" id="modalInviteSend" style="flex:1;">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalAlbum">
+        <div class="modal-content">
+            <div class="modal-handle"></div>
+            <div class="modal-title">Nuevo álbum</div>
+            <input type="text" id="albumNameInput" placeholder="Nombre del álbum" />
+            <textarea id="albumDescInput" placeholder="Descripción (opcional)"></textarea>
+            <div style="display:flex;gap:10px;">
+                <button class="btn-secondary-glass" id="modalAlbumCancel" style="flex:1;">Cancelar</button>
+                <button class="btn-primary-glass" id="modalAlbumCreate" style="flex:1;">Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- AQUÍ TERMINA LA PARTE 1/3                                     -->
+    <!-- CONTINÚA EN LA PARTE 2/3                                     -->
+    <!-- ============================================================ -->
+
+    <script>
+        // ============================================================
+        // JAVASCRIPT - PARTE 2/3
+        // CONTINUACIÓN EXACTA DE LA PARTE 1/3
+        // ============================================================
+
+        (function() {
+            'use strict';
+
+            // ---------- ESTADO ----------
+            const STATE = {
+                photos: [],
+                albums: [],
+                members: [],
+                favorites: [],
+                currentViewerIndex: 0,
+                currentViewerList: [],
+                isDark: false,
+                currentSection: 'home',
+                isFabOpen: false,
+                isLoggedIn: false,
+                currentUser: null,
+                hasSeenTutorial: false,
+                tutorialStep: 0,
+                isTutorialActive: false
+            };
+
+            // ---------- DATOS DE EJEMPLO ----------
+            const SAMPLE_PHOTOS = [
+                { id: 1, url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=400&fit=crop&crop=center',
+                    title: 'Familia en la playa', date: '2024-08-20' },
+                { id: 2, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=400&fit=crop&crop=center',
+                    title: 'Cumpleaños de Sofía', date: '2024-07-15' },
+                { id: 3, url: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=400&h=400&fit=crop&crop=center',
+                    title: 'Reunión familiar', date: '2024-06-10' },
+                { id: 4, url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop&crop=center',
+                    title: 'Navidad en casa', date: '2023-12-25' },
+                { id: 5, url: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&h=400&fit=crop&crop=center',
+                    title: 'Paseo en bicicleta', date: '2024-05-01' },
+                { id: 6, url: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=400&h=400&fit=crop&crop=center',
+                    title: 'Atardecer en la montaña', date: '2024-04-20' },
+                { id: 7, url: 'https://images.unsplash.com/photo-1527515545081-5f8178b8e4c0?w=400&h=400&fit=crop&crop=center',
+                    title: 'Comida familiar', date: '2024-03-12' },
+                { id: 8, url: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop&crop=center',
+                    title: 'Viaje a la playa', date: '2024-02-28' },
+                { id: 9, url: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=400&h=400&fit=crop&crop=center',
+                    title: 'Nueva mascota', date: '2024-01-14' },
+                { id: 10, url: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=400&h=400&fit=crop&crop=center',
+                    title: 'Graduación', date: '2023-11-05' },
+                { id: 11, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=400&fit=crop&crop=center',
+                    title: 'Bautizo', date: '2023-10-20' },
+                { id: 12, url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop&crop=center',
+                    title: 'Año nuevo', date: '2024-01-01' },
+            ];
+
+            const SAMPLE_ALBUMS = [
+                { id: 1, name: 'Vacaciones 2024', count: 48,
+                    cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center' },
+                { id: 2, name: 'Cumpleaños', count: 23,
+                    cover: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=200&h=200&fit=crop&crop=center' },
+                { id: 3, name: 'Navidad', count: 156,
+                    cover: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=200&h=200&fit=crop&crop=center' },
+                { id: 4, name: 'Boda', count: 87,
+                    cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center' },
+                { id: 5, name: 'Bautizo', count: 34,
+                    cover: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=200&h=200&fit=crop&crop=center' },
+                { id: 6, name: 'Viajes', count: 62,
+                    cover: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=200&h=200&fit=crop&crop=center' },
+            ];
+
+            const SAMPLE_MEMBERS = [
+                { id: 1, name: 'María Vivas', role: 'Administradora', color: '#6c5ce7' },
+                { id: 2, name: 'Carlos Vivas', role: 'Adulto', color: '#4a90e2' },
+                { id: 3, name: 'Sofía Vivas', role: 'Joven', color: '#00b894' },
+                { id: 4, name: 'Juan Vivas', role: 'Joven', color: '#9b59b6' },
+                { id: 5, name: 'Ana Gómez', role: 'Invitada', color: '#fd79a8' },
+                { id: 6, name: 'Pedro Gómez', role: 'Invitado', color: '#1abc9c' },
+            ];
+
+            // ---------- UTILIDADES ----------
+            function $(sel, ctx = document) { return ctx.querySelector(sel); }
+
+            function $$(sel, ctx = document) { return [...ctx.querySelectorAll(sel)]; }
+
+            function showToast(msg, duration = 2500) {
+                const t = document.getElementById('toast');
+                t.textContent = msg;
+                t.classList.add('show');
+                clearTimeout(t._timeout);
+                t._timeout = setTimeout(() => t.classList.remove('show'), duration);
+            }
+
+            function formatDate(d) {
+                const date = new Date(d);
+                return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+
+            function getGreeting() {
+                const h = new Date().getHours();
+                if (h < 12) return 'Buenos días';
+                if (h < 18) return 'Buenas tardes';
+                return 'Buenas noches';
+            }
+
+            function getInitials(name) {
+                return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+            }
+
+            function getTodayDate() {
+                return new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+
+            function validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            // ---------- PERSISTENCIA ----------
+            function loadState() {
+                try {
+                    const saved = localStorage.getItem('familia_state_v2');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        STATE.photos = parsed.photos || [];
+                        STATE.albums = parsed.albums || [];
+                        STATE.members = parsed.members || [];
+                        STATE.favorites = parsed.favorites || [];
+                        STATE.isDark = parsed.isDark || false;
+                        STATE.currentUser = parsed.currentUser || null;
+                        STATE.hasSeenTutorial = parsed.hasSeenTutorial || false;
+                        STATE.isLoggedIn = !!STATE.currentUser;
+                        return true;
+                    }
+                } catch (e) { /* ignore */ }
+                return false;
+            }
+
+            function saveState() {
+                try {
+                    localStorage.setItem('familia_state_v2', JSON.stringify({
+                        photos: STATE.photos,
+                        albums: STATE.albums,
+                        members: STATE.members,
+                        favorites: STATE.favorites,
+                        isDark: STATE.isDark,
+                        currentUser: STATE.currentUser,
+                        hasSeenTutorial: STATE.hasSeenTutorial
+                    }));
+                } catch (e) { /* ignore */ }
+            }
+
+            function initData() {
+                if (!loadState() || STATE.photos.length === 0) {
+                    STATE.photos = JSON.parse(JSON.stringify(SAMPLE_PHOTOS));
+                    STATE.albums = JSON.parse(JSON.stringify(SAMPLE_ALBUMS));
+                    STATE.members = JSON.parse(JSON.stringify(SAMPLE_MEMBERS));
+                    STATE.favorites = [];
+                    STATE.currentUser = null;
+                    STATE.isLoggedIn = false;
+                    STATE.hasSeenTutorial = false;
+                    saveState();
+                }
+                STATE.favorites = STATE.favorites.filter(fid =>
+                    STATE.photos.some(p => p.id === fid)
+                );
+            }
+
+            // ============================================================
+            // RENDER FUNCTIONS
+            // ============================================================
+
+            function renderFeaturedMemories() {
+                const container = document.getElementById('featuredScroll');
+                const mems = STATE.photos.slice(0, 6);
+                container.innerHTML = mems.map(p => `
+                    <button class="featured-item" data-photo-id="${p.id}">
+                        <div class="thumb"><img src="${p.url}" alt="${p.title}" loading="lazy" /></div>
+                        <div class="info">
+                            <div class="title">${p.title}</div>
+                            <div class="count">${formatDate(p.date)}</div>
+                        </div>
+                    </button>
+                `).join('');
+                container.querySelectorAll('.featured-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const id = parseInt(el.dataset.photoId);
+                        openViewerWithId(id);
+                    });
+                });
+            }
+
+            function renderHomePhotos() {
+                const container = document.getElementById('homePhotoGrid');
+                const photos = STATE.photos.slice(0, 6);
+                container.innerHTML = photos.map(p => `
+                    <div class="photo-item" data-photo-id="${p.id}">
+                        <img src="${p.url}" alt="${p.title}" loading="lazy" />
+                        <div class="photo-overlay">
+                            <button class="icon-btn" data-action="favorite"><i class="fas fa-heart"></i></button>
+                            <button class="icon-btn" data-action="view"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                container.querySelectorAll('.photo-item').forEach(el => {
+                    const id = parseInt(el.dataset.photoId);
+                    el.addEventListener('click', (e) => {
+                        if (e.target.closest('.icon-btn')) return;
+                        openViewerWithId(id);
+                    });
+                    el.querySelector('[data-action="favorite"]')?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(id);
+                        renderHomePhotos();
+                    });
+                    el.querySelector('[data-action="view"]')?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openViewerWithId(id);
+                    });
+                });
+            }
+
+            function renderHomeAlbums() {
+                const container = document.getElementById('homeAlbumScroll');
+                const albums = STATE.albums.slice(0, 4);
+                container.innerHTML = albums.map(a => `
+                    <button class="featured-item" data-album-id="${a.id}">
+                        <div class="thumb"><img src="${a.cover}" alt="${a.name}" loading="lazy" /></div>
+                        <div class="info">
+                            <div class="title">${a.name}</div>
+                            <div class="count">${a.count} fotos</div>
+                        </div>
+                    </button>
+                `).join('');
+                container.querySelectorAll('.featured-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const id = parseInt(el.dataset.albumId);
+                        const album = STATE.albums.find(a => a.id === id);
+                        if (album) showToast(`${album.name} - ${album.count} fotos`);
+                        navigateTo('albums');
+                    });
+                });
+            }
+
+            function renderAllPhotos(filter = 'all', search = '') {
+                const container = document.getElementById('allPhotoGrid');
+                let photos = [...STATE.photos];
+
+                if (filter === 'favorites') {
+                    photos = photos.filter(p => STATE.favorites.includes(p.id));
+                } else if (filter === 'recent') {
+                    photos = photos.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 12);
+                }
+
+                if (search.trim()) {
+                    const term = search.toLowerCase().trim();
+                    photos = photos.filter(p =>
+                        p.title.toLowerCase().includes(term) ||
+                        p.date.includes(term)
+                    );
+                }
+
+                document.getElementById('photoCount').textContent = `${photos.length} fotos`;
+
+                if (photos.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column:1/-1; text-align:center; padding:40px 0; color:var(--color-text-muted);">
+                            <i class="fas fa-images" style="font-size:48px; opacity:0.3; display:block; margin-bottom:12px;"></i>
+                            <p>No se encontraron fotos</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = photos.map(p => `
+                    <div class="photo-item" data-photo-id="${p.id}">
+                        <img src="${p.url}" alt="${p.title}" loading="lazy" />
+                        <div class="photo-overlay">
+                            <button class="icon-btn" data-action="favorite"><i class="fas ${STATE.favorites.includes(p.id) ? 'fa-heart' : 'fa-heart-o'}"></i></button>
+                            <button class="icon-btn" data-action="view"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.querySelectorAll('.photo-item').forEach(el => {
+                    const id = parseInt(el.dataset.photoId);
+                    el.addEventListener('click', (e) => {
+                        if (e.target.closest('.icon-btn')) return;
+                        openViewerWithId(id);
+                    });
+                    el.querySelector('[data-action="favorite"]')?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(id);
+                        renderAllPhotos(filter, search);
+                    });
+                    el.querySelector('[data-action="view"]')?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openViewerWithId(id);
+                    });
+                });
+            }
+
+            function renderAlbums() {
+                const container = document.getElementById('albumsGrid');
+                if (STATE.albums.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column:1/-1; text-align:center; padding:40px 0; color:var(--color-text-muted);">
+                            <i class="fas fa-folder-open" style="font-size:48px; opacity:0.3; display:block; margin-bottom:12px;"></i>
+                            <p>No hay álbumes aún</p>
+                            <button class="btn-primary-glass" style="margin-top:12px; padding:10px 24px; font-size:14px; width:auto;" id="createFirstAlbum">Crear primer álbum</button>
+                        </div>
+                    `;
+                    container.querySelector('#createFirstAlbum')?.addEventListener('click', () => openAlbumModal());
+                    return;
+                }
+
+                container.innerHTML = STATE.albums.map(a => `
+                    <button class="album-card" data-album-id="${a.id}">
+                        <div class="album-cover"><img src="${a.cover}" alt="${a.name}" /></div>
+                        <div class="album-info">
+                            <div class="album-name">${a.name}</div>
+                            <div class="album-meta">${a.count} fotos</div>
+                        </div>
+                    </button>
+                `).join('');
+
+                container.querySelectorAll('.album-card').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const id = parseInt(el.dataset.albumId);
+                        const album = STATE.albums.find(a => a.id === id);
+                        if (album) showToast(`${album.name} - ${album.count} fotos`);
+                    });
+                });
+            }
+
+            function renderMembers() {
+                const container = document.getElementById('membersList');
+                document.getElementById('memberCount').textContent = `${STATE.members.length} miembros`;
+
+                container.innerHTML = STATE.members.map(m => `
+                    <div class="member-item">
+                        <div class="member-avatar" style="background:${m.color};">
+                            <i class="fas fa-user" style="color:#fff; font-size:20px;"></i>
+                        </div>
+                        <div class="member-info">
+                            <div class="member-name">${m.name}</div>
+                            <div class="member-role">${m.role}</div>
+                        </div>
+                        <span class="member-badge">${m.role}</span>
+                    </div>
+                `).join('');
+            }
+
+            function updateStats() {
+                document.getElementById('statPhotos').textContent = STATE.photos.length;
+                document.getElementById('statAlbums').textContent = STATE.albums.length;
+                document.getElementById('statMembers').textContent = STATE.members.length;
+            }
+
+            // ============================================================
+            // FAVORITES
+            // ============================================================
+
+            function toggleFavorite(photoId) {
+                const idx = STATE.favorites.indexOf(photoId);
+                if (idx > -1) {
+                    STATE.favorites.splice(idx, 1);
+                    showToast('Eliminado de favoritos');
+                } else {
+                    STATE.favorites.push(photoId);
+                    showToast('Agregado a favoritos');
+                }
+                saveState();
+                renderHomePhotos();
+                if (document.getElementById('section-photos').style.display !== 'none') {
+                    const filter = document.querySelector('.photos-toolbar .active')?.dataset.filter || 'all';
+                    const search = document.getElementById('photoSearch').value;
+                    renderAllPhotos(filter, search);
+                }
+            }
+
+            // ============================================================
+            // VIEWER
+            // ============================================================
+
+            function openViewerWithId(photoId) {
+                const photos = STATE.photos;
+                const index = photos.findIndex(p => p.id === photoId);
+                if (index === -1) return;
+                STATE.currentViewerIndex = index;
+                STATE.currentViewerList = photos;
+                showViewer(index);
+            }
+
+            function showViewer(index) {
+                const list = STATE.currentViewerList;
+                const photo = list[index];
+                if (!photo) return;
+
+                const viewer = document.getElementById('photoViewer');
+                const img = document.getElementById('viewerImage');
+                const info = document.getElementById('viewerInfo');
+
+                img.src = photo.url;
+                info.textContent = `${photo.title} · ${formatDate(photo.date)}`;
+                viewer.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                const favBtn = document.getElementById('viewerFavorite');
+                const isFav = STATE.favorites.includes(photo.id);
+                favBtn.innerHTML = `<i class="fas ${isFav ? 'fa-heart' : 'fa-heart-o'}"></i> ${isFav ? 'Favorito' : 'Favorito'}`;
+                favBtn.dataset.photoId = photo.id;
+            }
+
+            function closeViewer() {
+                document.getElementById('photoViewer').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function navigateViewer(direction) {
+                const list = STATE.currentViewerList;
+                let newIndex = STATE.currentViewerIndex + direction;
+                if (newIndex < 0) newIndex = list.length - 1;
+                if (newIndex >= list.length) newIndex = 0;
+                STATE.currentViewerIndex = newIndex;
+                showViewer(newIndex);
+            }
+
+            // ============================================================
+            // NAVEGACIÓN
+            // ============================================================
+
+            function navigateTo(section) {
+                STATE.currentSection = section;
+                document.querySelectorAll('.main-content > section').forEach(el => el.style.display = 'none');
+                const map = {
+                    home: 'section-home',
+                    photos: 'section-photos',
+                    albums: 'section-albums',
+                    family: 'section-family',
+                    profile: 'section-profile'
+                };
+                const target = document.getElementById(map[section]);
+                if (target) target.style.display = 'block';
+
+                document.querySelectorAll('.bottom-nav .nav-item').forEach(el => {
+                    el.classList.toggle('active', el.dataset.section === section);
+                });
+
+                closeFab();
+
+                if (section === 'home') {
+                    document.getElementById('todayDate').textContent = getTodayDate();
+                    renderHomePhotos();
+                    renderFeaturedMemories();
+                    renderHomeAlbums();
+                    updateStats();
+                } else if (section === 'photos') {
+                    const filter = document.querySelector('.photos-toolbar .active')?.dataset.filter || 'all';
+                    const search = document.getElementById('photoSearch').value;
+                    renderAllPhotos(filter, search);
+                } else if (section === 'albums') {
+                    renderAlbums();
+                } else if (section === 'family') {
+                    renderMembers();
+                } else if (section === 'profile') {
+                    const user = STATE.currentUser || { name: 'Usuario', email: 'usuario@familia.com' };
+                    document.getElementById('profileName').textContent = user.name;
+                    document.getElementById('profileEmail').textContent = user.email;
+                    document.getElementById('profileAvatar').textContent = getInitials(user.name);
+                }
+            }
+
+            // ============================================================
+            // FAB
+            // ============================================================
+
+            function toggleFab() {
+                STATE.isFabOpen = !STATE.isFabOpen;
+                const main = document.getElementById('fabMain');
+                main.classList.toggle('open', STATE.isFabOpen);
+                const items = document.querySelectorAll('.fab-item');
+                items.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.toggle('show', STATE.isFabOpen);
+                    }, i * 40);
+                });
+            }
+
+            function closeFab() {
+                if (STATE.isFabOpen) toggleFab();
+            }
+
+            // ============================================================
+            // MODALES
+            // ============================================================
+
+            function openInviteModal() {
+                document.getElementById('modalInvite').classList.add('active');
+                document.getElementById('inviteEmail').value = '';
+                document.getElementById('inviteEmail').focus();
+            }
+
+            function closeInviteModal() {
+                document.getElementById('modalInvite').classList.remove('active');
+            }
+
+            function openAlbumModal() {
+                document.getElementById('modalAlbum').classList.add('active');
+                document.getElementById('albumNameInput').value = '';
+                document.getElementById('albumDescInput').value = '';
+                document.getElementById('albumNameInput').focus();
+            }
+
+            function closeAlbumModal() {
+                document.getElementById('modalAlbum').classList.remove('active');
+            }
+
+            function createAlbum(name, description) {
+                if (!name.trim()) {
+                    showToast('El nombre es requerido');
+                    return;
+                }
+                const newAlbum = {
+                    id: Date.now(),
+                    name: name.trim(),
+                    count: 0,
+                    cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center',
+                    description: description.trim()
+                };
+                STATE.albums.unshift(newAlbum);
+                saveState();
+                closeAlbumModal();
+                showToast(`Álbum "${newAlbum.name}" creado`);
+                renderAlbums();
+                renderHomeAlbums();
+                updateStats();
+            }
+
+            function sendInvite(email, role) {
+                if (!email.trim() || !email.includes('@')) {
+                    showToast('Email inválido');
+                    return;
+                }
+                const newMember = {
+                    id: Date.now(),
+                    name: email.split('@')[0],
+                    role: role,
+                    color: '#95a5a6'
+                };
+                STATE.members.push(newMember);
+                saveState();
+                closeInviteModal();
+                showToast(`Invitación enviada a ${email}`);
+                renderMembers();
+                updateStats();
+            }
+
+            // ============================================================
+            // TEMA
+            // ============================================================
+
+            function toggleTheme() {
+                STATE.isDark = !STATE.isDark;
+                document.documentElement.setAttribute('data-theme', STATE.isDark ? 'dark' : 'light');
+                document.getElementById('themeSwitch').classList.toggle('active', STATE.isDark);
+                document.getElementById('btnThemeToggle').innerHTML =
+                    `<i class="fas ${STATE.isDark ? 'fa-sun' : 'fa-moon'}"></i>`;
+                saveState();
+            }
+
+            function applyTheme() {
+                if (STATE.isDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.getElementById('themeSwitch').classList.add('active');
+                    document.getElementById('btnThemeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.getElementById('themeSwitch').classList.remove('active');
+                    document.getElementById('btnThemeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            }
+
+            // ============================================================
+            // LOGIN / REGISTER
+            // ============================================================
+
+            function showRegisterScreen() {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('register-screen').classList.add('active');
+                document.getElementById('registerError').classList.remove('show');
+                document.getElementById('registerSuccess').classList.remove('show');
+            }
+
+            function hideRegisterScreen() {
+                document.getElementById('register-screen').classList.remove('active');
+                document.getElementById('login-screen').style.display = 'flex';
+            }
+
+            function handleRegister(e) {
+                e.preventDefault();
+                const name = document.getElementById('registerName').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                const confirm = document.getElementById('registerConfirm').value;
+                const terms = document.getElementById('acceptTerms').checked;
+
+                const errorEl = document.getElementById('registerError');
+                const successEl = document.getElementById('registerSuccess');
+                const btn = document.getElementById('btnRegister');
+
+                errorEl.classList.remove('show');
+                successEl.classList.remove('show');
+
+                if (!name) {
+                    errorEl.textContent = 'El nombre es requerido';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    errorEl.textContent = 'Correo electrónico inválido';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    errorEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                if (password !== confirm) {
+                    errorEl.textContent = 'Las contraseñas no coinciden';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                if (!terms) {
+                    errorEl.textContent = 'Debes aceptar los términos y condiciones';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                btn.classList.add('loading');
+
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+
+                    // Simular creación de cuenta
+                    const existingUsers = JSON.parse(localStorage.getItem('familia_users') || '[]');
+                    if (existingUsers.some(u => u.email === email)) {
+                        errorEl.textContent = 'Este correo ya está registrado';
+                        errorEl.classList.add('show');
+                        return;
+                    }
+
+                    existingUsers.push({ name, email, password });
+                    localStorage.setItem('familia_users', JSON.stringify(existingUsers));
+
+                    successEl.textContent = '¡Cuenta creada exitosamente!';
+                    successEl.classList.add('show');
+
+                    setTimeout(() => {
+                        // Auto-login
+                        STATE.currentUser = { name, email };
+                        STATE.isLoggedIn = true;
+                        saveState();
+                        hideRegisterScreen();
+                        document.getElementById('login-screen').style.display = 'none';
+                        showWelcomeScreen();
+                    }, 800);
+                }, 1200);
+            }
+
+            function handleLogin(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+
+                const errorEl = document.getElementById('loginError');
+                const successEl = document.getElementById('loginSuccess');
+                const btn = document.getElementById('btnLogin');
+
+                errorEl.classList.remove('show');
+                successEl.classList.remove('show');
+
+                if (!email || !password) {
+                    errorEl.textContent = 'Completa todos los campos';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                btn.classList.add('loading');
+
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+
+                    // Verificar credenciales
+                    const users = JSON.parse(localStorage.getItem('familia_users') || '[]');
+                    const user = users.find(u => u.email === email && u.password === password);
+
+                    if (user) {
+                        STATE.currentUser = { name: user.name, email: user.email };
+                        STATE.isLoggedIn = true;
+                        saveState();
+                        successEl.textContent = '¡Bienvenido de nuevo!';
+                        successEl.classList.add('show');
+
+                        setTimeout(() => {
+                            document.getElementById('login-screen').style.display = 'none';
+                            if (STATE.hasSeenTutorial) {
+                                enterApp();
+                            } else {
+                                showWelcomeScreen();
+                            }
+                        }, 600);
+                    } else {
+                        // Demo: si no hay usuarios, crear uno por defecto
+                        if (users.length === 0) {
+                            users.push({ name: 'Familia Vivas', email: 'demo@familia.com', password: '123456' });
+                            localStorage.setItem('familia_users', JSON.stringify(users));
+                            errorEl.textContent = 'Usuario creado. Usa demo@familia.com / 123456';
+                            errorEl.classList.add('show');
+                        } else {
+                            errorEl.textContent = 'Correo o contraseña incorrectos';
+                            errorEl.classList.add('show');
+                        }
+                    }
+                }, 1000);
+            }
+
+            // ============================================================
+            // BIENVENIDA Y TUTORIAL
+            // ============================================================
+
+            function showWelcomeScreen() {
+                document.getElementById('welcome-screen').classList.add('active');
+                document.getElementById('app').classList.remove('active');
+            }
+
+            function hideWelcomeScreen() {
+                document.getElementById('welcome-screen').classList.remove('active');
+            }
+
+            function startTutorial() {
+                hideWelcomeScreen();
+                STATE.tutorialStep = 0;
+                STATE.isTutorialActive = true;
+                showTutorialStep(0);
+                document.getElementById('tutorial-overlay').classList.add('active');
+            }
+
+            function skipTutorial() {
+                STATE.hasSeenTutorial = true;
+                STATE.isTutorialActive = false;
+                saveState();
+                document.getElementById('tutorial-overlay').classList.remove('active');
+                hideWelcomeScreen();
+                enterApp();
+            }
+
+            const tutorialSteps = [{
+                icon: 'fa-home',
+                title: 'Inicio',
+                desc: 'Aquí encontrarás un resumen de tus recuerdos, fotos recientes y álbumes destacados.'
+            }, {
+                icon: 'fa-images',
+                title: 'Fotos',
+                desc: 'Visualiza, busca y organiza todas tus fotografías. Marca tus favoritas para acceder rápido.'
+            }, {
+                icon: 'fa-folder',
+                title: 'Álbumes',
+                desc: 'Crea álbumes temáticos para organizar tus recuerdos por eventos, fechas o personas.'
+            }, {
+                icon: 'fa-users',
+                title: 'Familia',
+                desc: 'Invita a tus familiares, administra miembros y comparte recuerdos con quienes elijas.'
+            }, {
+                icon: 'fa-plus-circle',
+                title: 'Botón +',
+                desc: 'Desde aquí puedes subir fotos, crear álbumes, tomar fotos o invitar familiares.'
+            }, {
+                icon: 'fa-user',
+                title: 'Perfil',
+                desc: 'Configura tu cuenta, ajusta privacidad, cambia el tema y accede a la ayuda.'
+            }];
+
+            function showTutorialStep(index) {
+                const step = tutorialSteps[index];
+                if (!step) {
+                    // Fin del tutorial
+                    STATE.hasSeenTutorial = true;
+                    STATE.isTutorialActive = false;
+                    saveState();
+                    document.getElementById('tutorial-overlay').classList.remove('active');
+                    hideWelcomeScreen();
+                    enterApp();
+                    showToast('¡Listo! Comienza a usar FAMILIA');
+                    return;
+                }
+
+                document.getElementById('tutorialStep').textContent = `Paso ${index + 1} de ${tutorialSteps.length}`;
+                document.getElementById('tutorialIcon').innerHTML = `<i class="fas ${step.icon}"></i>`;
+                document.getElementById('tutorialTitle').textContent = step.title;
+                document.getElementById('tutorialDesc').textContent = step.desc;
+
+                // Actualizar dots
+                const dots = document.querySelectorAll('#tutorialProgress .dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+
+                // Botones
+                document.getElementById('tutorialPrev').style.display = index === 0 ? 'none' : 'block';
+                const nextBtn = document.getElementById('tutorialNext');
+                if (index === tutorialSteps.length - 1) {
+                    nextBtn.textContent = 'Comenzar';
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                }
+            }
+
+            function nextTutorialStep() {
+                const next = STATE.tutorialStep + 1;
+                STATE.tutorialStep = next;
+                showTutorialStep(next);
+            }
+
+            function prevTutorialStep() {
+                const prev = STATE.tutorialStep - 1;
+                if (prev >= 0) {
+                    STATE.tutorialStep = prev;
+                    showTutorialStep(prev);
+                }
+            }
+
+            // ============================================================
+            // APP PRINCIPAL
+            // ============================================================
+
+            function enterApp() {
+                document.getElementById('app').classList.add('active');
+                const user = STATE.currentUser || { name: 'Familia Vivas', email: 'familia@vivas.com' };
+                document.getElementById('greetingText').textContent = getGreeting();
+                document.getElementById('userName').textContent = user.name;
+                document.getElementById('headerAvatar').textContent = getInitials(user.name);
+                document.getElementById('profileAvatar').textContent = getInitials(user.name);
+                document.getElementById('profileName').textContent = user.name;
+                document.getElementById('profileEmail').textContent = user.email || 'usuario@familia.com';
+                navigateTo('home');
+                showToast('Bienvenido a FAMILIA', 3000);
+            }
+
+            function logoutUser() {
+                if (confirm('¿Cerrar sesión?')) {
+                    STATE.isLoggedIn = false;
+                    STATE.currentUser = null;
+                    saveState();
+                    document.getElementById('app').classList.remove('active');
+                    document.getElementById('login-screen').style.display = 'flex';
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                    document.getElementById('loginError').classList.remove('show');
+                    document.getElementById('loginSuccess').classList.remove('show');
+                    showToast('Sesión cerrada');
+                }
+            }
+
+            // ============================================================
+            // SUBIDA DE FOTOS
+            // ============================================================
+
+            function triggerUpload() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.accept = 'image/*,video/*';
+                input.onchange = (e) => {
+                    const files = e.target.files;
+                    if (files.length === 0) return;
+                    showToast(`${files.length} archivos seleccionados`, 2000);
+
+                    let count = 0;
+                    Array.from(files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            const newPhoto = {
+                                id: Date.now() + count,
+                                url: ev.target.result,
+                                title: file.name.replace(/\.[^/.]+$/, ''),
+                                date: new Date().toISOString().split('T')[0]
+                            };
+                            STATE.photos.unshift(newPhoto);
+                            count++;
+                            if (count === files.length) {
+                                saveState();
+                                showToast(`${count} fotos subidas`, 3000);
+                                if (STATE.currentSection === 'home') {
+                                    renderHomePhotos();
+                                    renderFeaturedMemories();
+                                    updateStats();
+                                } else if (STATE.currentSection === 'photos') {
+                                    const filter = document.querySelector('.photos-toolbar .active')?.dataset.filter ||
+                                    'all';
+                                    renderAllPhotos(filter, document.getElementById('photoSearch').value);
+                                }
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                };
+                input.click();
+            }
+
+            // ============================================================
+            // AQUÍ TERMINA LA PARTE 2/3
+            // CONTINÚA EN LA PARTE 3/3
+            // ============================================================
+        })();
+    </script>
+
+    <!-- ============================================================ -->
+    <!-- AQUÍ COMIENZA LA PARTE 3/3                                   -->
+    <!-- CONTINUACIÓN EXACTA DE LA PARTE 2/3                         -->
+    <!-- ============================================================ -->
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // PARTE 3/3 - EVENTOS Y CONFIGURACIÓN FINAL
+            // CONTINUACIÓN DE LA PARTE 2/3
+            // ============================================================
+
+            function init() {
+                initData();
+                applyTheme();
+
+                // Verificar si hay sesión guardada
+                if (STATE.isLoggedIn && STATE.currentUser) {
+                    document.getElementById('login-screen').style.display = 'none';
+                    if (STATE.hasSeenTutorial) {
+                        enterApp();
+                    } else {
+                        showWelcomeScreen();
+                    }
+                } else {
+                    document.getElementById('login-screen').style.display = 'flex';
+                    document.getElementById('app').classList.remove('active');
+                }
+
+                setupEvents();
+                console.log('FAMILIA · App profesional con glassmorphism');
+                console.log(`${STATE.photos.length} fotos, ${STATE.albums.length} álbumes, ${STATE.members.length} miembros`);
+            }
+
+            // ============================================================
+            // CONFIGURACIÓN DE EVENTOS
+            // ============================================================
+
+            function setupEvents() {
+
+                // ----- LOGIN -----
+                document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+                document.getElementById('btnShowRegister').addEventListener('click', showRegisterScreen);
+
+                document.getElementById('forgotPassword').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showToast('Recupera tu contraseña', 2000);
+                });
+
+                document.getElementById('togglePassword').addEventListener('click', function() {
+                    const input = document.getElementById('loginPassword');
+                    const icon = this.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.className = 'fas fa-eye-slash';
+                    } else {
+                        input.type = 'password';
+                        icon.className = 'fas fa-eye';
+                    }
+                });
+
+                // ----- REGISTER -----
+                document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+                document.getElementById('btnBackToLogin').addEventListener('click', hideRegisterScreen);
+                document.getElementById('btnBackToLoginFromRegister').addEventListener('click', hideRegisterScreen);
+
+                // ----- BIENVENIDA -----
+                document.getElementById('btnStartTutorial').addEventListener('click', startTutorial);
+                document.getElementById('btnSkipTutorial').addEventListener('click', skipTutorial);
+
+                // ----- TUTORIAL -----
+                document.getElementById('tutorialNext').addEventListener('click', nextTutorialStep);
+                document.getElementById('tutorialPrev').addEventListener('click', prevTutorialStep);
+                document.getElementById('tutorialSkip').addEventListener('click', skipTutorial);
+
+                // ----- NAVEGACIÓN INFERIOR -----
+                document.querySelectorAll('.bottom-nav .nav-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const section = el.dataset.section;
+                        if (section) navigateTo(section);
+                    });
+                });
+
+                // ----- FAB -----
+                document.getElementById('fabMain').addEventListener('click', toggleFab);
+
+                document.querySelectorAll('.fab-item').forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const action = el.dataset.action;
+                        closeFab();
+                        if (action === 'upload') triggerUpload();
+                        else if (action === 'camera') {
+                            showToast('Abriendo cámara...');
+                            setTimeout(() => triggerUpload(), 500);
+                        } else if (action === 'album') openAlbumModal();
+                        else if (action === 'invite') openInviteModal();
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (STATE.isFabOpen && !e.target.closest('.fab-menu')) {
+                        closeFab();
+                    }
+                });
+
+                // ----- ACCIONES RÁPIDAS -----
+                document.getElementById('qaUpload').addEventListener('click', triggerUpload);
+                document.getElementById('qaAlbum').addEventListener('click', openAlbumModal);
+                document.getElementById('qaFavorites').addEventListener('click', () => {
+                    navigateTo('photos');
+                    document.querySelector('[data-filter="favorites"]')?.click();
+                });
+                document.getElementById('qaFamily').addEventListener('click', () => navigateTo('family'));
+
+                // ----- HEADER -----
+                document.getElementById('headerAvatar').addEventListener('click', () => navigateTo('profile'));
+                document.getElementById('btnNotifications').addEventListener('click', () => {
+                    showToast('No tienes notificaciones nuevas');
+                });
+                document.getElementById('btnThemeToggle').addEventListener('click', toggleTheme);
+
+                // ----- VER TODOS -----
+                document.getElementById('seeAllMemories').addEventListener('click', () => navigateTo('photos'));
+                document.getElementById('seeAllPhotos').addEventListener('click', () => navigateTo('photos'));
+                document.getElementById('seeAllAlbumsHome').addEventListener('click', () => navigateTo('albums'));
+                document.getElementById('btnCreateAlbum').addEventListener('click', openAlbumModal);
+
+                // ----- FILTROS DE FOTOS -----
+                document.querySelectorAll('.photos-toolbar .toolbar-btn').forEach(el => {
+                    el.addEventListener('click', function() {
+                        document.querySelectorAll('.photos-toolbar .toolbar-btn').forEach(b => b.classList.remove(
+                        'active'));
+                        this.classList.add('active');
+                        const filter = this.dataset.filter;
+                        const search = document.getElementById('photoSearch').value;
+                        renderAllPhotos(filter, search);
+                    });
+                });
+
+                // ----- BÚSQUEDA DE FOTOS -----
+                document.getElementById('photoSearch').addEventListener('input', (e) => {
+                    const filter = document.querySelector('.photos-toolbar .active')?.dataset.filter || 'all';
+                    renderAllPhotos(filter, e.target.value);
+                });
+
+                // ----- FAMILIA -----
+                document.getElementById('btnInviteMember').addEventListener('click', openInviteModal);
+                document.getElementById('btnFamilySettings').addEventListener('click', () => {
+                    showToast('Configuración de la familia');
+                });
+
+                // ----- PERFIL -----
+                document.getElementById('menuEditProfile').addEventListener('click', () => {
+                    const user = STATE.currentUser || { name: 'Usuario' };
+                    const name = prompt('Nuevo nombre:', user.name);
+                    if (name) {
+                        STATE.currentUser = { ...STATE.currentUser, name: name };
+                        saveState();
+                        document.getElementById('userName').textContent = name;
+                        document.getElementById('headerAvatar').textContent = getInitials(name);
+                        document.getElementById('profileName').textContent = name;
+                        document.getElementById('profileAvatar').textContent = getInitials(name);
+                        showToast('Perfil actualizado');
+                    }
+                });
+
+                document.getElementById('menuPrivacy').addEventListener('click', () => {
+                    showToast('Configuración de privacidad');
+                });
+
+                document.getElementById('menuNotifications').addEventListener('click', () => {
+                    showToast('Configuración de notificaciones');
+                });
+
+                document.getElementById('menuSecurity').addEventListener('click', () => {
+                    showToast('Configuración de seguridad');
+                });
+
+                document.getElementById('menuHelp').addEventListener('click', () => {
+                    STATE.hasSeenTutorial = false;
+                    saveState();
+                    showWelcomeScreen();
+                    showToast('Tutorial reiniciado');
+                });
+
+                document.getElementById('menuLogout').addEventListener('click', logoutUser);
+
+                // ----- TOGGLE TEMA -----
+                document.getElementById('themeSwitch').addEventListener('click', toggleTheme);
+
+                // ----- MODALES -----
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.remove('active');
+                        }
+                    });
+                });
+
+                document.getElementById('modalInviteCancel').addEventListener('click', closeInviteModal);
+                document.getElementById('modalInviteSend').addEventListener('click', () => {
+                    const email = document.getElementById('inviteEmail').value;
+                    const role = document.getElementById('inviteRole').value;
+                    sendInvite(email, role);
+                });
+
+                document.getElementById('modalAlbumCancel').addEventListener('click', closeAlbumModal);
+                document.getElementById('modalAlbumCreate').addEventListener('click', () => {
+                    const name = document.getElementById('albumNameInput').value;
+                    const desc = document.getElementById('albumDescInput').value;
+                    createAlbum(name, desc);
+                });
+
+                // Enter en inputs de modales
+                document.getElementById('inviteEmail').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') document.getElementById('modalInviteSend').click();
+                });
+                document.getElementById('albumNameInput').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') document.getElementById('modalAlbumCreate').click();
+                });
+
+                // ----- VISOR -----
+                document.getElementById('viewerClose').addEventListener('click', closeViewer);
+                document.getElementById('viewerPrev').addEventListener('click', () => navigateViewer(-1));
+                document.getElementById('viewerNext').addEventListener('click', () => navigateViewer(1));
+
+                document.getElementById('viewerFavorite').addEventListener('click', function() {
+                    const id = parseInt(this.dataset.photoId);
+                    if (id) {
+                        toggleFavorite(id);
+                        const isFav = STATE.favorites.includes(id);
+                        this.innerHTML =
+                            `<i class="fas ${isFav ? 'fa-heart' : 'fa-heart-o'}"></i> ${isFav ? 'Favorito' : 'Favorito'}`;
+                    }
+                });
+
+                document.getElementById('viewerDownload').addEventListener('click', function() {
+                    const img = document.getElementById('viewerImage');
+                    const link = document.createElement('a');
+                    link.download = 'recuerdo-familia.jpg';
+                    link.href = img.src;
+                    link.click();
+                    showToast('Descargando...');
+                });
+
+                document.getElementById('viewerShare').addEventListener('click', function() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Recuerdo familiar',
+                            text: 'Mira este recuerdo de FAMILIA',
+                            url: document.getElementById('viewerImage').src
+                        }).catch(() => {});
+                    } else {
+                        showToast('Copiado al portapapeles');
+                        navigator.clipboard?.writeText(document.getElementById('viewerImage').src);
+                    }
+                });
+
+                // ----- TECLADO -----
+                document.addEventListener('keydown', (e) => {
+                    const viewer = document.getElementById('photoViewer');
+                    if (viewer.classList.contains('active')) {
+                        if (e.key === 'Escape') closeViewer();
+                        else if (e.key === 'ArrowLeft') navigateViewer(-1);
+                        else if (e.key === 'ArrowRight') navigateViewer(1);
+                        return;
+                    }
+                    if (e.key === 'Escape') {
+                        document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+                        if (document.getElementById('tutorial-overlay').classList.contains('active')) {
+                            skipTutorial();
+                        }
+                    }
+                });
+
+                // ----- SWIPE EN VISOR -----
+                let touchStartX = 0;
+                document.getElementById('photoViewer').addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                document.getElementById('photoViewer').addEventListener('touchend', (e) => {
+                    const diff = touchStartX - e.changedTouches[0].screenX;
+                    if (Math.abs(diff) > 50) {
+                        navigateViewer(diff > 0 ? 1 : -1);
+                    }
+                }, { passive: true });
+
+                // ----- ACTUALIZAR ESTADÍSTICAS -----
+                setInterval(() => {
+                    if (STATE.isLoggedIn) updateStats();
+                }, 60000);
+
+                // ----- ENTER PARA LOGIN -----
+                document.getElementById('loginPassword').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') document.getElementById('btnLogin').click();
+                });
+            }
+
+            // ============================================================
+            // INICIALIZACIÓN
+            // ============================================================
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // Exponer para depuración
+            window.__FAMILIA = {
+                STATE,
+                navigateTo,
+                showToast,
+                toggleTheme,
+                triggerUpload,
+                openAlbumModal,
+                openInviteModal,
+                renderAllPhotos,
+                renderAlbums,
+                renderMembers,
+                updateStats,
+                loginUser: handleLogin,
+                logoutUser,
+                enterApp,
+                startTutorial,
+                skipTutorial
+            };
+
+        })();
+    </script>
+
+    <!-- ============================================================ -->
+    <!-- AQUÍ TERMINA LA PARTE 3/3                                    -->
+    <!-- PROYECTO COMPLETO FINALIZADO                                -->
+    <!-- ============================================================ -->
+
+</body>
+</html>
