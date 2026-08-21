@@ -7,11 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ===========================================================
+        /* ============================================================
                    IDENTIDAD AURORA - TEMA COMPLETO
                    ============================================================ */
-
-        /* ---------- ROOT VARIABLES ---------- */
         :root {
             --aurora-blue: #0a0e27;
             --aurora-blue-deep: #060a1f;
@@ -52,7 +50,6 @@
             --aurora-bg-gradient: linear-gradient(180deg, var(--aurora-blue-deep) 0%, var(--aurora-blue) 40%, #14183a 100%);
         }
 
-        /* ---------- TEMA CLARO ---------- */
         [data-theme="light"] {
             --aurora-blue: #f0edf5;
             --aurora-blue-deep: #e8e4f0;
@@ -69,7 +66,6 @@
             --aurora-bg-gradient: linear-gradient(180deg, #f0edf5 0%, #e8e4f0 40%, #d5cfe8 100%);
         }
 
-        /* ---------- RESET ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -118,7 +114,6 @@
             flex-direction: column;
         }
 
-        /* ---------- ANIMACIONES AURORA ---------- */
         @keyframes auroraPulse {
             0%,
             100% {
@@ -148,15 +143,6 @@
             }
             50% {
                 box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
-            }
-        }
-
-        @keyframes auroraShimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
             }
         }
 
@@ -192,7 +178,7 @@
         }
 
         /* ============================================================
-                   LOGIN SCREEN - AURORA
+                   LOGIN SCREEN
                    ============================================================ */
         #login-screen {
             display: flex;
@@ -230,7 +216,6 @@
             animation: auroraPulse 10s ease-in-out infinite reverse;
         }
 
-        /* ---------- LOGO AURORA ---------- */
         .login-logo {
             position: relative;
             width: 100px;
@@ -300,7 +285,6 @@
             }
         }
 
-        /* ---------- NOMBRE APP ---------- */
         .app-name {
             font-size: 38px;
             font-weight: 900;
@@ -368,7 +352,6 @@
             animation: fadeUp 0.6s ease forwards 0.8s;
         }
 
-        /* ---------- GLASS CARD ---------- */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur));
@@ -996,9 +979,6 @@
             padding: 0 16px 16px;
         }
 
-        /* ============================================================
-                   GLASS COMPONENTS
-                   ============================================================ */
         .glass-card-sm {
             background: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur));
@@ -2145,7 +2125,9 @@
 
         .photo-viewer .viewer-actions {
             display: flex;
-            gap: 16px;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-top: 16px;
         }
 
@@ -2153,10 +2135,10 @@
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: var(--radius-full);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: var(--transition);
             display: flex;
             align-items: center;
@@ -2166,6 +2148,15 @@
 
         .photo-viewer .viewer-actions .v-btn:hover {
             background: rgba(255, 255, 255, 0.12);
+        }
+
+        .photo-viewer .viewer-actions .v-btn.danger {
+            color: var(--color-error);
+            border-color: rgba(248, 113, 113, 0.2);
+        }
+
+        .photo-viewer .viewer-actions .v-btn.danger:hover {
+            background: rgba(248, 113, 113, 0.15);
         }
 
         /* ============================================================
@@ -2209,6 +2200,11 @@
 
             .app-name {
                 font-size: 30px;
+            }
+
+            .photo-viewer .viewer-actions .v-btn {
+                font-size: 12px;
+                padding: 6px 12px;
             }
         }
 
@@ -2622,10 +2618,12 @@
         <button class="viewer-nav next" id="viewerNext"><i class="fas fa-chevron-right"></i></button>
         <img class="viewer-image" id="viewerImage" src="" alt="Foto" />
         <div class="viewer-info-bottom" id="viewerInfo">Recuerdo familiar</div>
-        <div class="viewer-actions">
+        <div class="viewer-actions" id="viewerActions">
             <button class="v-btn" id="viewerFavorite"><i class="fas fa-heart"></i> Favorito</button>
             <button class="v-btn" id="viewerDownload"><i class="fas fa-download"></i> Descargar</button>
             <button class="v-btn" id="viewerShare"><i class="fas fa-share-alt"></i> Compartir</button>
+            <button class="v-btn" id="viewerEdit"><i class="fas fa-edit"></i> Editar</button>
+            <button class="v-btn danger" id="viewerDelete"><i class="fas fa-trash-alt"></i> Eliminar</button>
         </div>
     </div>
 
@@ -2657,6 +2655,38 @@
             <div style="display:flex;gap:10px;">
                 <button class="btn-secondary-glass" id="modalAlbumCancel" style="flex:1;">Cancelar</button>
                 <button class="btn-primary-glass" id="modalAlbumCreate" style="flex:1;">Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Foto -->
+    <div class="modal-overlay" id="modalEditPhoto">
+        <div class="modal-content">
+            <div class="modal-handle"></div>
+            <div class="modal-title">Editar recuerdo</div>
+            <input type="text" id="editPhotoTitle" placeholder="Título" />
+            <textarea id="editPhotoMessage" placeholder="Mensaje / recuerdo"></textarea>
+            <input type="text" id="editPhotoLocation" placeholder="Lugar" />
+            <input type="date" id="editPhotoDate" />
+            <select id="editPhotoAlbum">
+                <option value="">Sin álbum</option>
+            </select>
+            <div style="display:flex;gap:10px;margin-top:8px;">
+                <button class="btn-secondary-glass" id="modalEditCancel" style="flex:1;">Cancelar</button>
+                <button class="btn-primary-glass" id="modalEditSave" style="flex:1;">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Eliminar -->
+    <div class="modal-overlay" id="modalConfirmDelete">
+        <div class="modal-content">
+            <div class="modal-handle"></div>
+            <div class="modal-title" style="color:var(--color-error);">Eliminar fotografía</div>
+            <p style="color:var(--color-text-secondary);margin-bottom:16px;">Esta fotografía se eliminará de tus recuerdos y álbumes. Esta acción no se puede deshacer.</p>
+            <div style="display:flex;gap:10px;">
+                <button class="btn-secondary-glass" id="modalConfirmCancel" style="flex:1;">Cancelar</button>
+                <button class="btn-primary-glass" id="modalConfirmDeleteBtn" style="flex:1;background:var(--color-error);">Eliminar</button>
             </div>
         </div>
     </div>
@@ -2697,6 +2727,7 @@
             groups: [],
             invitations: [],
             notifications: [],
+            editingPhotoId: null,
             settings: {
                 theme: 'dark',
                 notifications: true,
@@ -2737,12 +2768,6 @@
                 location: 'Casa', uploadedBy: 'Sofía Vivas' },
             { id: 10, url: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=400&h=400&fit=crop&crop=center',
                 title: 'Graduación', date: '2023-11-05', message: 'Un logro más en familia.', location: 'Universidad',
-                uploadedBy: 'María Vivas' },
-            { id: 11, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=400&fit=crop&crop=center',
-                title: 'Bautizo', date: '2023-10-20', message: 'Un momento especial para toda la familia.',
-                location: 'Iglesia', uploadedBy: 'Carlos Vivas' },
-            { id: 12, url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop&crop=center',
-                title: 'Año nuevo', date: '2024-01-01', message: 'Un nuevo año lleno de esperanza.', location: 'Casa',
                 uploadedBy: 'María Vivas' },
         ];
 
@@ -2862,7 +2887,7 @@
         // ============================================================
         function loadState() {
             try {
-                var saved = localStorage.getItem('familia_state_v4');
+                var saved = localStorage.getItem('familia_state_v5');
                 if (saved) {
                     var parsed = JSON.parse(saved);
                     STATE.photos = parsed.photos || [];
@@ -2886,7 +2911,7 @@
 
         function saveState() {
             try {
-                localStorage.setItem('familia_state_v4', JSON.stringify({
+                localStorage.setItem('familia_state_v5', JSON.stringify({
                     photos: STATE.photos,
                     albums: STATE.albums,
                     members: STATE.members,
@@ -3151,6 +3176,13 @@
                 var search = document.getElementById('photoSearch').value;
                 renderAllPhotos(filter, search);
             }
+            // Actualizar botón en visor si está abierto
+            var viewerFavBtn = document.getElementById('viewerFavorite');
+            if (viewerFavBtn && viewerFavBtn.dataset.photoId == photoId) {
+                var isFav = STATE.favorites.indexOf(photoId) > -1;
+                viewerFavBtn.innerHTML = '<i class="fas ' + (isFav ? 'fa-heart' : 'fa-heart-o') + '"></i> ' + (isFav ?
+                    'Favorito' : 'Favorito');
+            }
         }
 
         // ============================================================
@@ -3179,11 +3211,11 @@
 
             img.src = photo.url;
 
-            // Mostrar título, mensaje y fecha
             var infoText = photo.title;
             if (photo.message) infoText += ' · ' + photo.message;
             infoText += ' · ' + formatDate(photo.date);
             if (photo.location) infoText += ' · ' + photo.location;
+            if (photo.uploadedBy) infoText += ' · Por ' + photo.uploadedBy;
             info.textContent = infoText;
 
             viewer.classList.add('active');
@@ -3194,11 +3226,15 @@
             favBtn.innerHTML = '<i class="fas ' + (isFav ? 'fa-heart' : 'fa-heart-o') + '"></i> ' + (isFav ?
                 'Favorito' : 'Favorito');
             favBtn.dataset.photoId = photo.id;
+
+            // Guardar ID de la foto para editar/eliminar
+            STATE.editingPhotoId = photo.id;
         }
 
         function closeViewer() {
             document.getElementById('photoViewer').classList.remove('active');
             document.body.style.overflow = '';
+            STATE.editingPhotoId = null;
         }
 
         function navigateViewer(direction) {
@@ -3611,7 +3647,6 @@
             document.getElementById('profileEmail').textContent = user.email || 'usuario@familia.com';
             navigateTo('home');
 
-            // Notificación de bienvenida
             var welcomeNotif = {
                 id: Date.now(),
                 type: 'welcome',
@@ -3641,8 +3676,10 @@
         }
 
         // ============================================================
-        // 15. SUBIDA DE FOTOS CON MENSAJE
+        // 15. GESTIÓN DE FOTOS - SUBIR, EDITAR, ELIMINAR
         // ============================================================
+
+        // Subir foto con mensaje
         function triggerUpload() {
             var input = document.createElement('input');
             input.type = 'file';
@@ -3654,15 +3691,13 @@
 
                 var fileArray = [].slice.call(files);
 
-                // Si es una sola foto, mostrar modal para agregar mensaje
                 if (fileArray.length === 1) {
                     var file = fileArray[0];
                     var reader = new FileReader();
                     reader.onload = function(ev) {
                         var previewUrl = ev.target.result;
-                        // Mostrar modal de mensaje
-                        var message = prompt('Agrega un mensaje para este recuerdo:', '');
                         var title = prompt('Título de la foto:', file.name.replace(/\.[^/.]+$/, ''));
+                        var message = prompt('Agrega un mensaje para este recuerdo:', '');
                         var location = prompt('Lugar:', '');
 
                         var newPhoto = {
@@ -3677,21 +3712,12 @@
                         STATE.photos.unshift(newPhoto);
                         saveState();
                         showToast('Recuerdo guardado', 3000);
-                        if (STATE.currentSection === 'home') {
-                            renderHomePhotos();
-                            renderFeaturedMemories();
-                            updateStats();
-                        } else if (STATE.currentSection === 'photos') {
-                            var filter = document.querySelector('.photos-toolbar .active');
-                            filter = filter ? filter.dataset.filter : 'all';
-                            renderAllPhotos(filter, document.getElementById('photoSearch').value);
-                        }
+                        refreshCurrentView();
                     };
                     reader.readAsDataURL(file);
                     return;
                 }
 
-                // Múltiples archivos
                 showToast(files.length + ' archivos seleccionados', 2000);
                 var count = 0;
                 fileArray.forEach(function(file) {
@@ -3711,15 +3737,7 @@
                         if (count === files.length) {
                             saveState();
                             showToast(count + ' recuerdos guardados', 3000);
-                            if (STATE.currentSection === 'home') {
-                                renderHomePhotos();
-                                renderFeaturedMemories();
-                                updateStats();
-                            } else if (STATE.currentSection === 'photos') {
-                                var filter = document.querySelector('.photos-toolbar .active');
-                                filter = filter ? filter.dataset.filter : 'all';
-                                renderAllPhotos(filter, document.getElementById('photoSearch').value);
-                            }
+                            refreshCurrentView();
                         }
                     };
                     reader.readAsDataURL(file);
@@ -3728,8 +3746,203 @@
             input.click();
         }
 
+        function refreshCurrentView() {
+            if (STATE.currentSection === 'home') {
+                renderHomePhotos();
+                renderFeaturedMemories();
+                updateStats();
+            } else if (STATE.currentSection === 'photos') {
+                var filter = document.querySelector('.photos-toolbar .active');
+                filter = filter ? filter.dataset.filter : 'all';
+                renderAllPhotos(filter, document.getElementById('photoSearch').value);
+            }
+        }
+
+        // Editar foto
+        function openEditPhotoModal(photoId) {
+            var photo = STATE.photos.find(function(p) { return p.id === photoId; });
+            if (!photo) {
+                showToast('Foto no encontrada');
+                return;
+            }
+
+            document.getElementById('editPhotoTitle').value = photo.title || '';
+            document.getElementById('editPhotoMessage').value = photo.message || '';
+            document.getElementById('editPhotoLocation').value = photo.location || '';
+            document.getElementById('editPhotoDate').value = photo.date || '';
+
+            // Llenar selector de álbumes
+            var albumSelect = document.getElementById('editPhotoAlbum');
+            albumSelect.innerHTML = '<option value="">Sin álbum</option>';
+            STATE.albums.forEach(function(a) {
+                var selected = (photo.albumId && photo.albumId === a.id) ? 'selected' : '';
+                albumSelect.innerHTML += '<option value="' + a.id + '" ' + selected + '>' + a.name + '</option>';
+            });
+
+            STATE.editingPhotoId = photoId;
+            document.getElementById('modalEditPhoto').classList.add('active');
+        }
+
+        function closeEditPhotoModal() {
+            document.getElementById('modalEditPhoto').classList.remove('active');
+            STATE.editingPhotoId = null;
+        }
+
+        function saveEditedPhoto() {
+            var photoId = STATE.editingPhotoId;
+            if (!photoId) {
+                showToast('Error: no se encontró la foto');
+                return;
+            }
+
+            var photo = STATE.photos.find(function(p) { return p.id === photoId; });
+            if (!photo) {
+                showToast('Foto no encontrada');
+                return;
+            }
+
+            var title = document.getElementById('editPhotoTitle').value.trim();
+            var message = document.getElementById('editPhotoMessage').value.trim();
+            var location = document.getElementById('editPhotoLocation').value.trim();
+            var date = document.getElementById('editPhotoDate').value;
+            var albumId = document.getElementById('editPhotoAlbum').value;
+
+            if (!title) {
+                showToast('El título es requerido');
+                return;
+            }
+
+            photo.title = title;
+            photo.message = message || 'Sin mensaje';
+            photo.location = location || 'Sin ubicación';
+            photo.date = date || new Date().toISOString().split('T')[0];
+            photo.albumId = albumId || null;
+
+            saveState();
+            closeEditPhotoModal();
+            showToast('Recuerdo actualizado', 2000);
+            refreshCurrentView();
+
+            // Si el visor está abierto, actualizarlo
+            if (document.getElementById('photoViewer').classList.contains('active')) {
+                var currentIndex = STATE.currentViewerIndex;
+                if (STATE.currentViewerList && STATE.currentViewerList[currentIndex] &&
+                    STATE.currentViewerList[currentIndex].id === photoId) {
+                    showViewer(currentIndex);
+                }
+            }
+        }
+
+        // Eliminar foto con confirmación
+        function confirmDeletePhoto(photoId) {
+            var photo = STATE.photos.find(function(p) { return p.id === photoId; });
+            if (!photo) {
+                showToast('Foto no encontrada');
+                return;
+            }
+
+            STATE.editingPhotoId = photoId;
+            document.getElementById('modalConfirmDelete').classList.add('active');
+        }
+
+        function closeConfirmDeleteModal() {
+            document.getElementById('modalConfirmDelete').classList.remove('active');
+            STATE.editingPhotoId = null;
+        }
+
+        function executeDeletePhoto() {
+            var photoId = STATE.editingPhotoId;
+            if (!photoId) {
+                showToast('Error: no se encontró la foto');
+                return;
+            }
+
+            // Eliminar de photos
+            var index = -1;
+            for (var i = 0; i < STATE.photos.length; i++) {
+                if (STATE.photos[i].id === photoId) { index = i; break; }
+            }
+            if (index === -1) {
+                showToast('Foto no encontrada');
+                closeConfirmDeleteModal();
+                return;
+            }
+
+            STATE.photos.splice(index, 1);
+
+            // Eliminar de favoritos
+            var favIndex = STATE.favorites.indexOf(photoId);
+            if (favIndex > -1) {
+                STATE.favorites.splice(favIndex, 1);
+            }
+
+            // Eliminar de comentarios
+            if (STATE.comments[photoId]) {
+                delete STATE.comments[photoId];
+            }
+
+            saveState();
+            closeConfirmDeleteModal();
+
+            // Cerrar visor si está abierto
+            if (document.getElementById('photoViewer').classList.contains('active')) {
+                closeViewer();
+            }
+
+            showToast('Fotografía eliminada correctamente', 2500);
+            refreshCurrentView();
+            updateStats();
+        }
+
         // ============================================================
-        // 16. SETUP DE EVENTOS
+        // 16. NOTIFICACIONES
+        // ============================================================
+        function getUnreadNotifications() {
+            return STATE.notifications.filter(function(n) { return !n.read; });
+        }
+
+        function markNotificationAsRead(notifId) {
+            var notif = STATE.notifications.find(function(n) { return n.id === notifId; });
+            if (notif) {
+                notif.read = true;
+                saveState();
+            }
+        }
+
+        function markAllNotificationsAsRead() {
+            STATE.notifications.forEach(function(n) { n.read = true; });
+            saveState();
+            showToast('Todas las notificaciones marcadas como leídas');
+        }
+
+        function addNotification(message, type) {
+            var notif = {
+                id: Date.now(),
+                type: type || 'info',
+                message: message,
+                read: false,
+                date: new Date().toISOString()
+            };
+            STATE.notifications.unshift(notif);
+            saveState();
+            // Actualizar badge
+            updateNotificationBadge();
+        }
+
+        function updateNotificationBadge() {
+            var unread = getUnreadNotifications().length;
+            var badge = document.querySelector('.badge-dot');
+            if (badge) {
+                if (unread > 0) {
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        // ============================================================
+        // 17. SETUP DE EVENTOS
         // ============================================================
         function setupEvents() {
 
@@ -3863,8 +4076,16 @@
             var btnNotifications = document.getElementById('btnNotifications');
             if (btnNotifications) {
                 btnNotifications.addEventListener('click', function() {
-                    var count = STATE.notifications.filter(function(n) { return !n.read; }).length;
-                    showToast(count + ' notificaciones sin leer');
+                    var unread = getUnreadNotifications();
+                    if (unread.length === 0) {
+                        showToast('No tienes notificaciones nuevas');
+                    } else {
+                        var msg = unread.length + ' notificaciones sin leer';
+                        showToast(msg, 2000);
+                        // Marcar como leídas al abrir
+                        markAllNotificationsAsRead();
+                        updateNotificationBadge();
+                    }
                 });
             }
 
@@ -3983,6 +4204,7 @@
                 });
             });
 
+            // Invite modal
             var modalInviteCancel = document.getElementById('modalInviteCancel');
             if (modalInviteCancel) modalInviteCancel.addEventListener('click', closeInviteModal);
 
@@ -3995,6 +4217,7 @@
                 });
             }
 
+            // Album modal
             var modalAlbumCancel = document.getElementById('modalAlbumCancel');
             if (modalAlbumCancel) modalAlbumCancel.addEventListener('click', closeAlbumModal);
 
@@ -4006,6 +4229,20 @@
                     createAlbum(name, desc);
                 });
             }
+
+            // Edit photo modal
+            var modalEditCancel = document.getElementById('modalEditCancel');
+            if (modalEditCancel) modalEditCancel.addEventListener('click', closeEditPhotoModal);
+
+            var modalEditSave = document.getElementById('modalEditSave');
+            if (modalEditSave) modalEditSave.addEventListener('click', saveEditedPhoto);
+
+            // Confirm delete modal
+            var modalConfirmCancel = document.getElementById('modalConfirmCancel');
+            if (modalConfirmCancel) modalConfirmCancel.addEventListener('click', closeConfirmDeleteModal);
+
+            var modalConfirmDeleteBtn = document.getElementById('modalConfirmDeleteBtn');
+            if (modalConfirmDeleteBtn) modalConfirmDeleteBtn.addEventListener('click', executeDeletePhoto);
 
             // Enter en inputs de modales
             var inviteEmail = document.getElementById('inviteEmail');
@@ -4081,6 +4318,46 @@
                 });
             }
 
+            var viewerEdit = document.getElementById('viewerEdit');
+            if (viewerEdit) {
+                viewerEdit.addEventListener('click', function() {
+                    var photoId = parseInt(this.dataset.photoId) || STATE.editingPhotoId;
+                    if (photoId) {
+                        closeViewer();
+                        setTimeout(function() { openEditPhotoModal(photoId); }, 300);
+                    }
+                });
+                // Actualizar dataset cuando se muestra una foto
+            }
+
+            var viewerDelete = document.getElementById('viewerDelete');
+            if (viewerDelete) {
+                viewerDelete.addEventListener('click', function() {
+                    var photoId = parseInt(this.dataset.photoId) || STATE.editingPhotoId;
+                    if (photoId) {
+                        closeViewer();
+                        setTimeout(function() { confirmDeletePhoto(photoId); }, 300);
+                    }
+                });
+            }
+
+            // Actualizar dataset de viewer actions al mostrar
+            var viewerObserver = new MutationObserver(function() {
+                if (document.getElementById('photoViewer').classList.contains('active')) {
+                    var currentPhoto = STATE.currentViewerList[STATE.currentViewerIndex];
+                    if (currentPhoto) {
+                        var editBtn = document.getElementById('viewerEdit');
+                        var deleteBtn = document.getElementById('viewerDelete');
+                        if (editBtn) editBtn.dataset.photoId = currentPhoto.id;
+                        if (deleteBtn) deleteBtn.dataset.photoId = currentPhoto.id;
+                    }
+                }
+            });
+            var viewerEl = document.getElementById('photoViewer');
+            if (viewerEl) {
+                viewerObserver.observe(viewerEl, { attributes: true, attributeFilter: ['class'] });
+            }
+
             // ----- TECLADO -----
             document.addEventListener('keydown', function(e) {
                 var viewer = document.getElementById('photoViewer');
@@ -4102,7 +4379,6 @@
 
             // ----- SWIPE EN VISOR -----
             var touchStartX = 0;
-            var viewerEl = document.getElementById('photoViewer');
             if (viewerEl) {
                 viewerEl.addEventListener('touchstart', function(e) {
                     touchStartX = e.changedTouches[0].screenX;
@@ -4118,7 +4394,10 @@
 
             // ----- ACTUALIZAR ESTADÍSTICAS -----
             setInterval(function() {
-                if (STATE.isLoggedIn) updateStats();
+                if (STATE.isLoggedIn) {
+                    updateStats();
+                    updateNotificationBadge();
+                }
             }, 60000);
 
             // ----- ENTER PARA LOGIN -----
@@ -4131,10 +4410,13 @@
                     }
                 });
             }
+
+            // Inicializar badge
+            updateNotificationBadge();
         }
 
         // ============================================================
-        // 17. INICIALIZACIÓN
+        // 18. INICIALIZACIÓN
         // ============================================================
         function init() {
             initData();
@@ -4159,7 +4441,7 @@
         }
 
         // ============================================================
-        // 18. ARRANQUE
+        // 19. ARRANQUE
         // ============================================================
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
