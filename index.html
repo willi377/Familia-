@@ -3,53 +3,73 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>FAMILIA · Tus recuerdos</title>
+    <title>FAMILIA · Aurora</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ============================================================
-                   TEMA GLASSMORPHISM - VARIABLES
+                   IDENTIDAD AURORA - TEMA COMPLETO
                    ============================================================ */
+
+        /* ---------- ROOT VARIABLES ---------- */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            --glass-blur: 20px;
+            --aurora-blue: #0a0e27;
+            --aurora-blue-deep: #060a1f;
+            --aurora-blue-mid: #1a2a5a;
+            --aurora-purple: #6c4a9a;
+            --aurora-violet: #8b5cf6;
+            --aurora-turquoise: #22d3ee;
+            --aurora-pink: #ec4899;
+            --aurora-glow: rgba(139, 92, 246, 0.15);
+            --aurora-glow-strong: rgba(139, 92, 246, 0.25);
+
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            --glass-blur: 24px;
             --glass-radius: 20px;
 
-            --color-primary: #6c5ce7;
-            --color-primary-dark: #5a4bd1;
-            --color-primary-light: #a29bfe;
-            --color-secondary: #fd79a8;
-            --color-accent: #00b894;
-            --color-bg-start: #0c0e1a;
-            --color-bg-end: #1a1a3e;
-            --color-text: #ffffff;
-            --color-text-secondary: rgba(255, 255, 255, 0.7);
-            --color-text-muted: rgba(255, 255, 255, 0.4);
-            --color-shadow: rgba(108, 92, 231, 0.3);
-            --color-error: #ff6b6b;
-            --color-success: #55efc4;
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 28px;
+            --color-text: #f0edf5;
+            --color-text-secondary: rgba(240, 237, 245, 0.7);
+            --color-text-muted: rgba(240, 237, 245, 0.4);
+
+            --color-primary: var(--aurora-violet);
+            --color-primary-dark: #7c3aed;
+            --color-primary-light: #a78bfa;
+            --color-success: var(--aurora-turquoise);
+            --color-error: #f87171;
+
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
             --radius-full: 9999px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --nav-height: 72px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+            --aurora-gradient: linear-gradient(135deg, var(--aurora-violet), var(--aurora-pink));
+            --aurora-gradient-subtle: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.1));
+            --aurora-bg-gradient: linear-gradient(180deg, var(--aurora-blue-deep) 0%, var(--aurora-blue) 40%, #14183a 100%);
         }
 
+        /* ---------- TEMA CLARO ---------- */
         [data-theme="light"] {
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.35);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            --color-bg-start: #e8e4f0;
-            --color-bg-end: #d5cfe8;
+            --aurora-blue: #f0edf5;
+            --aurora-blue-deep: #e8e4f0;
+            --aurora-blue-mid: #d5cfe8;
+
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+
             --color-text: #1a1a2e;
             --color-text-secondary: rgba(26, 26, 46, 0.7);
             --color-text-muted: rgba(26, 26, 46, 0.4);
+
+            --aurora-bg-gradient: linear-gradient(180deg, #f0edf5 0%, #e8e4f0 40%, #d5cfe8 100%);
         }
 
+        /* ---------- RESET ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -67,12 +87,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            background: var(--aurora-bg-gradient);
             background-attachment: fixed;
             padding: 0;
             margin: 0;
             transition: background 0.6s ease;
             overflow-x: hidden;
+            color: var(--color-text);
         }
 
         ::-webkit-scrollbar {
@@ -97,8 +118,81 @@
             flex-direction: column;
         }
 
+        /* ---------- ANIMACIONES AURORA ---------- */
+        @keyframes auroraPulse {
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.98);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes auroraFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes auroraGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
+            }
+        }
+
+        @keyframes auroraShimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         /* ============================================================
-                   LOGIN SCREEN
+                   LOGIN SCREEN - AURORA
                    ============================================================ */
         #login-screen {
             display: flex;
@@ -115,48 +209,57 @@
         #login-screen::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(108, 92, 231, 0.15), transparent 70%);
+            top: -30%;
+            right: -30%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 70%);
             pointer-events: none;
-            animation: floatBg 20s ease-in-out infinite;
+            animation: auroraPulse 8s ease-in-out infinite;
         }
 
-        @keyframes floatBg {
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-            50% {
-                transform: translate(-30px, 30px);
-            }
+        #login-screen::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.08), transparent 70%);
+            pointer-events: none;
+            animation: auroraPulse 10s ease-in-out infinite reverse;
         }
 
+        /* ---------- LOGO AURORA ---------- */
         .login-logo {
             position: relative;
             width: 100px;
             height: 100px;
             margin-bottom: 24px;
             cursor: default;
+            animation: auroraFloat 4s ease-in-out infinite;
         }
 
         .login-logo svg {
             width: 100%;
             height: 100%;
-            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        .login-logo .logo-bg {
+            fill: var(--aurora-gradient);
+            opacity: 0.1;
+            animation: auroraGlow 3s ease-in-out infinite;
         }
 
         .login-logo .logo-ring {
             fill: none;
-            stroke: rgba(255, 255, 255, 0.1);
+            stroke: rgba(255, 255, 255, 0.08);
             stroke-width: 2;
         }
 
         .login-logo .logo-ring-inner {
             fill: none;
-            stroke: var(--color-primary-light);
+            stroke: var(--aurora-violet);
             stroke-width: 2;
             stroke-dasharray: 100;
             stroke-dashoffset: 100;
@@ -175,7 +278,7 @@
         }
 
         .login-logo .logo-shine {
-            fill: rgba(255, 255, 255, 0.05);
+            fill: rgba(255, 255, 255, 0.04);
             animation: logoShine 4s ease-in-out infinite;
         }
 
@@ -185,28 +288,19 @@
             }
         }
 
-        @keyframes logoFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
         @keyframes logoShine {
             0%,
             100% {
-                opacity: 0.3;
+                opacity: 0.2;
                 transform: scale(0.95);
             }
             50% {
-                opacity: 0.8;
+                opacity: 0.6;
                 transform: scale(1.05);
             }
         }
 
+        /* ---------- NOMBRE APP ---------- */
         .app-name {
             font-size: 38px;
             font-weight: 900;
@@ -222,7 +316,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: letterReveal 0.6s ease forwards;
-            background: linear-gradient(135deg, #fff 40%, var(--color-primary-light));
+            background: var(--aurora-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -253,7 +347,7 @@
         }
 
         .app-name .letter.dot {
-            -webkit-text-fill-color: var(--color-primary-light);
+            -webkit-text-fill-color: var(--aurora-pink);
             animation-delay: 0.5s;
         }
 
@@ -274,6 +368,7 @@
             animation: fadeUp 0.6s ease forwards 0.8s;
         }
 
+        /* ---------- GLASS CARD ---------- */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur));
@@ -290,8 +385,8 @@
         }
 
         .glass-card .error-box {
-            background: rgba(255, 107, 107, 0.12);
-            border: 1px solid rgba(255, 107, 107, 0.25);
+            background: rgba(248, 113, 113, 0.12);
+            border: 1px solid rgba(248, 113, 113, 0.2);
             color: var(--color-error);
             padding: 10px 14px;
             border-radius: var(--radius-sm);
@@ -307,9 +402,9 @@
         }
 
         .glass-card .success-box {
-            background: rgba(85, 239, 196, 0.12);
-            border: 1px solid rgba(85, 239, 196, 0.25);
-            color: var(--color-success);
+            background: rgba(34, 211, 238, 0.12);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            color: var(--aurora-turquoise);
             padding: 10px 14px;
             border-radius: var(--radius-sm);
             font-size: 13px;
@@ -344,7 +439,7 @@
             padding: 14px 16px 14px 44px;
             border-radius: var(--radius-sm);
             border: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--color-text);
             font-size: 15px;
             font-family: inherit;
@@ -357,9 +452,9 @@
         }
 
         .glass-card .form-group input:focus {
-            border-color: var(--color-primary-light);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+            border-color: var(--aurora-violet);
+            background: rgba(139, 92, 246, 0.06);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
         }
 
         .glass-card .form-group .password-toggle {
@@ -397,14 +492,14 @@
         }
 
         .glass-card .form-options label input[type="checkbox"] {
-            accent-color: var(--color-primary);
+            accent-color: var(--aurora-violet);
             width: 16px;
             height: 16px;
             cursor: pointer;
         }
 
         .glass-card .form-options a {
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
@@ -420,7 +515,7 @@
             padding: 16px;
             border-radius: var(--radius-sm);
             border: none;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             color: #fff;
             font-size: 16px;
             font-weight: 600;
@@ -433,7 +528,7 @@
 
         .glass-card .btn-primary-glass:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px var(--color-shadow);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
         }
 
         .glass-card .btn-primary-glass:active {
@@ -500,8 +595,9 @@
         }
 
         .glass-card .btn-secondary-glass:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--color-primary-light);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--aurora-violet);
+            color: var(--aurora-violet);
         }
 
         /* ============================================================
@@ -520,7 +616,7 @@
             right: 0;
             bottom: 0;
             z-index: 20;
-            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            background: var(--aurora-bg-gradient);
             animation: fadeUp 0.4s ease;
         }
 
@@ -549,7 +645,7 @@
         }
 
         #register-screen .back-to-login:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
             transform: scale(1.05);
         }
 
@@ -582,7 +678,7 @@
             right: 0;
             bottom: 0;
             z-index: 25;
-            background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+            background: var(--aurora-bg-gradient);
             animation: fadeUp 0.6s ease;
             text-align: center;
         }
@@ -602,9 +698,9 @@
             align-items: center;
             justify-content: center;
             font-size: 32px;
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
             margin-bottom: 24px;
-            animation: logoFloat 3s ease-in-out infinite;
+            animation: auroraFloat 3s ease-in-out infinite;
         }
 
         #welcome-screen .welcome-title {
@@ -612,6 +708,12 @@
             font-weight: 800;
             color: var(--color-text);
             margin-bottom: 8px;
+        }
+
+        #welcome-screen .welcome-title span {
+            background: var(--aurora-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         #welcome-screen .welcome-desc {
@@ -629,7 +731,7 @@
         }
 
         #welcome-screen .welcome-creator strong {
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
         }
 
         #welcome-screen .welcome-buttons {
@@ -638,44 +740,6 @@
             gap: 12px;
             width: 100%;
             max-width: 320px;
-        }
-
-        #welcome-screen .welcome-buttons .btn-primary-glass {
-            width: 100%;
-            padding: 16px;
-            border-radius: var(--radius-sm);
-            border: none;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        #welcome-screen .welcome-buttons .btn-primary-glass:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px var(--color-shadow);
-        }
-
-        #welcome-screen .welcome-buttons .btn-secondary-glass {
-            width: 100%;
-            padding: 14px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--glass-border);
-            background: transparent;
-            color: var(--color-text);
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        #welcome-screen .welcome-buttons .btn-secondary-glass:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--color-primary-light);
         }
 
         /* ============================================================
@@ -689,8 +753,8 @@
             right: 0;
             bottom: 0;
             z-index: 60;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             animation: fadeIn 0.3s ease;
         }
 
@@ -724,7 +788,7 @@
 
         .tutorial-card .tutorial-icon {
             font-size: 32px;
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
             margin-bottom: 12px;
         }
 
@@ -758,7 +822,7 @@
         }
 
         .tutorial-card .tutorial-progress .dot.active {
-            background: var(--color-primary-light);
+            background: var(--aurora-violet);
             width: 24px;
             border-radius: 4px;
         }
@@ -787,17 +851,17 @@
         }
 
         .tutorial-card .tutorial-buttons .btn-skip:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .tutorial-card .tutorial-buttons .btn-next {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             color: #fff;
         }
 
         .tutorial-card .tutorial-buttons .btn-next:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px var(--color-shadow);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
         }
 
         .tutorial-card .tutorial-buttons .btn-prev {
@@ -807,7 +871,7 @@
         }
 
         .tutorial-card .tutorial-buttons .btn-prev:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         /* ============================================================
@@ -852,7 +916,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -906,7 +970,7 @@
         }
 
         .header-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             color: var(--color-text);
             transform: scale(1.05);
         }
@@ -921,9 +985,10 @@
             right: 8px;
             width: 8px;
             height: 8px;
-            background: var(--color-error);
+            background: var(--aurora-pink);
             border-radius: 50%;
             border: 2px solid var(--glass-bg);
+            animation: auroraPulse 2s ease-in-out infinite;
         }
 
         .main-content {
@@ -931,6 +996,9 @@
             padding: 0 16px 16px;
         }
 
+        /* ============================================================
+                   GLASS COMPONENTS
+                   ============================================================ */
         .glass-card-sm {
             background: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur));
@@ -941,8 +1009,25 @@
             padding: 20px;
         }
 
+        .glass-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--glass-shadow);
+            padding: 16px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .glass-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
         /* ============================================================
-                   HOME
+                   HOME SECTION
                    ============================================================ */
         #section-home {
             display: block;
@@ -950,7 +1035,7 @@
         }
 
         .hero-card {
-            background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 184, 148, 0.15));
+            background: var(--aurora-gradient-subtle);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
@@ -970,7 +1055,7 @@
             right: -10px;
             bottom: -20px;
             font-size: 80px;
-            opacity: 0.06;
+            opacity: 0.04;
             color: #fff;
         }
 
@@ -1006,7 +1091,7 @@
 
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-bottom: 24px;
         }
@@ -1030,8 +1115,8 @@
 
         .quick-actions .qa-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .quick-actions .qa-item:active {
@@ -1050,23 +1135,18 @@
         }
 
         .quick-actions .qa-item .qa-icon.primary {
-            background: rgba(108, 92, 231, 0.2);
-            color: var(--color-primary-light);
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--aurora-violet);
         }
 
         .quick-actions .qa-item .qa-icon.secondary {
-            background: rgba(253, 121, 168, 0.2);
-            color: var(--color-secondary);
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--aurora-pink);
         }
 
         .quick-actions .qa-item .qa-icon.green {
-            background: rgba(0, 184, 148, 0.2);
-            color: var(--color-accent);
-        }
-
-        .quick-actions .qa-item .qa-icon.purple {
-            background: rgba(162, 155, 254, 0.2);
-            color: var(--color-primary-light);
+            background: rgba(34, 211, 238, 0.2);
+            color: var(--aurora-turquoise);
         }
 
         .quick-actions .qa-item .qa-label {
@@ -1091,7 +1171,7 @@
         .section-header .see-all {
             font-size: 13px;
             font-weight: 600;
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
             cursor: pointer;
             background: none;
             border: none;
@@ -1136,7 +1216,7 @@
 
         .featured-item:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .featured-item:active {
@@ -1198,7 +1278,7 @@
 
         .photo-grid .photo-item:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .photo-grid .photo-item:active {
@@ -1218,7 +1298,7 @@
             left: 0;
             right: 0;
             padding: 20px 8px 8px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
             opacity: 0;
             transition: var(--transition);
             display: flex;
@@ -1231,8 +1311,8 @@
         }
 
         .photo-grid .photo-item .photo-overlay .icon-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
             width: 28px;
             height: 28px;
@@ -1247,11 +1327,11 @@
         }
 
         .photo-grid .photo-item .photo-overlay .icon-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         /* ============================================================
-                   PHOTOS
+                   PHOTOS SECTION
                    ============================================================ */
         #section-photos {
             display: none;
@@ -1280,12 +1360,12 @@
         }
 
         .photos-toolbar .toolbar-btn:hover {
-            border-color: var(--color-primary-light);
+            border-color: var(--aurora-violet);
             color: var(--color-text);
         }
 
         .photos-toolbar .toolbar-btn.active {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             border-color: transparent;
             color: #fff;
         }
@@ -1314,8 +1394,8 @@
         }
 
         .photos-search input:focus {
-            border-color: var(--color-primary-light);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+            border-color: var(--aurora-violet);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
         }
 
         .photos-search .search-icon {
@@ -1327,7 +1407,7 @@
         }
 
         /* ============================================================
-                   ALBUMS
+                   ALBUMS SECTION
                    ============================================================ */
         #section-albums {
             display: none;
@@ -1357,7 +1437,7 @@
 
         .albums-grid .album-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .albums-grid .album-card:active {
@@ -1397,7 +1477,7 @@
         }
 
         /* ============================================================
-                   FAMILY
+                   FAMILY SECTION
                    ============================================================ */
         #section-family {
             display: none;
@@ -1430,18 +1510,18 @@
         }
 
         .family-header-actions .action-btn:hover {
-            border-color: var(--color-primary-light);
+            border-color: var(--aurora-violet);
             color: var(--color-text);
         }
 
         .family-header-actions .action-btn.primary {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             border-color: transparent;
             color: #fff;
         }
 
         .family-header-actions .action-btn.primary:hover {
-            box-shadow: 0 4px 16px var(--color-shadow);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
         }
 
         .members-list {
@@ -1465,7 +1545,7 @@
         }
 
         .members-list .member-item:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .members-list .member-item .member-avatar {
@@ -1499,13 +1579,13 @@
             font-size: 11px;
             padding: 2px 12px;
             border-radius: var(--radius-full);
-            background: rgba(108, 92, 231, 0.15);
-            color: var(--color-primary-light);
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--aurora-violet);
             font-weight: 600;
         }
 
         /* ============================================================
-                   PROFILE
+                   PROFILE SECTION
                    ============================================================ */
         #section-profile {
             display: none;
@@ -1527,7 +1607,7 @@
             width: 96px;
             height: 96px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1536,7 +1616,7 @@
             font-weight: 700;
             margin: 0 auto 12px;
             border: 2px solid var(--glass-border);
-            box-shadow: 0 8px 24px var(--color-shadow);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2);
         }
 
         .profile-card .profile-name {
@@ -1576,7 +1656,7 @@
         }
 
         .profile-menu .menu-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             transform: translateX(4px);
         }
 
@@ -1596,27 +1676,27 @@
         }
 
         .profile-menu .menu-item .menu-icon.primary {
-            background: rgba(108, 92, 231, 0.15);
-            color: var(--color-primary-light);
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--aurora-violet);
         }
 
         .profile-menu .menu-item .menu-icon.secondary {
-            background: rgba(253, 121, 168, 0.15);
-            color: var(--color-secondary);
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--aurora-pink);
         }
 
         .profile-menu .menu-item .menu-icon.green {
-            background: rgba(0, 184, 148, 0.15);
-            color: var(--color-accent);
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--aurora-turquoise);
         }
 
         .profile-menu .menu-item .menu-icon.purple {
-            background: rgba(162, 155, 254, 0.15);
-            color: var(--color-primary-light);
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--aurora-violet);
         }
 
         .profile-menu .menu-item .menu-icon.red {
-            background: rgba(255, 107, 107, 0.15);
+            background: rgba(248, 113, 113, 0.15);
             color: var(--color-error);
         }
 
@@ -1675,7 +1755,7 @@
         }
 
         .theme-toggle .toggle-switch.active {
-            background: var(--color-primary);
+            background: var(--aurora-violet);
         }
 
         .theme-toggle .toggle-switch.active .toggle-knob {
@@ -1769,7 +1849,7 @@
             padding: 14px 16px;
             border-radius: var(--radius-sm);
             border: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--color-text);
             font-size: 15px;
             font-family: inherit;
@@ -1786,8 +1866,8 @@
         .modal-content input:focus,
         .modal-content select:focus,
         .modal-content textarea:focus {
-            border-color: var(--color-primary-light);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+            border-color: var(--aurora-violet);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .modal-content textarea {
@@ -1799,7 +1879,7 @@
             padding: 14px;
             border-radius: var(--radius-sm);
             border: none;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             color: #fff;
             font-size: 15px;
             font-weight: 600;
@@ -1809,7 +1889,7 @@
         }
 
         .modal-content .btn-primary-glass:hover {
-            box-shadow: 0 4px 16px var(--color-shadow);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
         }
 
         .modal-content .btn-secondary-glass {
@@ -1826,7 +1906,7 @@
         }
 
         .modal-content .btn-secondary-glass:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .fab-menu {
@@ -1873,19 +1953,19 @@
         }
 
         .fab-menu .fab-item.primary {
-            background: var(--color-primary);
+            background: var(--aurora-gradient);
         }
 
         .fab-menu .fab-item.secondary {
-            background: var(--color-secondary);
+            background: var(--aurora-pink);
         }
 
         .fab-menu .fab-item.green {
-            background: var(--color-accent);
+            background: var(--aurora-turquoise);
         }
 
         .fab-menu .fab-item.purple {
-            background: #9b59b6;
+            background: var(--aurora-violet);
         }
 
         .fab-main {
@@ -1893,20 +1973,21 @@
             height: 64px;
             border-radius: 50%;
             border: none;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: var(--aurora-gradient);
             color: #fff;
             font-size: 28px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 8px 32px var(--color-shadow);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: auroraGlow 3s ease-in-out infinite;
         }
 
         .fab-main:hover {
             transform: scale(1.05);
-            box-shadow: 0 12px 48px var(--color-shadow);
+            box-shadow: 0 12px 48px rgba(139, 92, 246, 0.4);
         }
 
         .fab-main:active {
@@ -1964,7 +2045,7 @@
         }
 
         .bottom-nav .nav-item.active {
-            color: var(--color-primary-light);
+            color: var(--aurora-violet);
         }
 
         .bottom-nav .nav-item.active i {
@@ -1995,8 +2076,8 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             font-size: 22px;
             width: 44px;
@@ -2010,7 +2091,7 @@
         }
 
         .photo-viewer .viewer-close:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .photo-viewer .viewer-image {
@@ -2025,8 +2106,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             width: 44px;
             height: 44px;
@@ -2040,7 +2121,7 @@
         }
 
         .photo-viewer .viewer-nav:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .photo-viewer .viewer-nav.prev {
@@ -2057,7 +2138,7 @@
             left: 0;
             right: 0;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
             font-weight: 400;
         }
@@ -2069,8 +2150,8 @@
         }
 
         .photo-viewer .viewer-actions .v-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             padding: 8px 16px;
             border-radius: var(--radius-full);
@@ -2084,41 +2165,7 @@
         }
 
         .photo-viewer .viewer-actions .v-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* ============================================================
-                   ANIMACIONES
-                   ============================================================ */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            background: rgba(255, 255, 255, 0.12);
         }
 
         /* ============================================================
@@ -2173,14 +2220,14 @@
                 min-height: calc(100vh - 40px);
                 max-height: calc(100vh - 40px);
                 overflow-y: auto;
-                background: rgba(255, 255, 255, 0.03);
+                background: rgba(255, 255, 255, 0.02);
                 backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.03);
             }
 
             body {
                 padding: 0 20px;
-                background: linear-gradient(135deg, var(--color-bg-start), var(--color-bg-end));
+                background: var(--aurora-bg-gradient);
             }
 
             .bottom-nav {
@@ -2225,6 +2272,7 @@
         <div id="login-screen">
             <div class="login-logo">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="logo-bg" cx="50" cy="50" r="48" />
                     <circle class="logo-ring" cx="50" cy="50" r="45" />
                     <circle class="logo-ring-inner" cx="50" cy="50" r="38" />
                     <path class="logo-icon" d="M35 30 L35 70 L50 70 L50 45 L65 45 L65 30 Z" />
@@ -2245,7 +2293,7 @@
                 <span class="letter dot">.</span>
             </div>
 
-            <div class="app-tagline">Tus recuerdos, todos en un solo lugar</div>
+            <div class="app-tagline">Tus recuerdos, iluminados por Aurora</div>
 
             <div class="glass-card">
                 <div class="error-box" id="loginError">Credenciales incorrectas</div>
@@ -2339,7 +2387,7 @@
         <!-- ====== WELCOME ====== -->
         <div id="welcome-screen">
             <div class="welcome-icon"><i class="fas fa-images"></i></div>
-            <div class="welcome-title">Bienvenido a FAMILIA</div>
+            <div class="welcome-title">Bienvenido a <span>FAMILIA</span></div>
             <div class="welcome-desc">Un espacio privado para guardar, organizar y compartir tus recuerdos familiares.</div>
             <div class="welcome-creator">Creada por <strong>Edier W.</strong></div>
 
@@ -2354,12 +2402,13 @@
         <!-- ====== TUTORIAL ====== -->
         <div id="tutorial-overlay">
             <div class="tutorial-card" id="tutorialCard">
-                <div class="tutorial-step-indicator" id="tutorialStep">Paso 1 de 6</div>
+                <div class="tutorial-step-indicator" id="tutorialStep">Paso 1 de 7</div>
                 <div class="tutorial-icon" id="tutorialIcon"><i class="fas fa-home"></i></div>
                 <div class="tutorial-title" id="tutorialTitle">Inicio</div>
                 <div class="tutorial-desc" id="tutorialDesc">Aquí encontrarás un resumen de tus recuerdos, fotos recientes y álbumes destacados.</div>
                 <div class="tutorial-progress" id="tutorialProgress">
                     <span class="dot active"></span>
+                    <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
@@ -2428,12 +2477,8 @@
                             <div class="qa-icon secondary"><i class="fas fa-folder-plus"></i></div>
                             <span class="qa-label">Álbum</span>
                         </button>
-                        <button class="qa-item" id="qaFavorites">
-                            <div class="qa-icon green"><i class="fas fa-heart"></i></div>
-                            <span class="qa-label">Favoritos</span>
-                        </button>
                         <button class="qa-item" id="qaFamily">
-                            <div class="qa-icon purple"><i class="fas fa-users"></i></div>
+                            <div class="qa-icon green"><i class="fas fa-users"></i></div>
                             <span class="qa-label">Familia</span>
                         </button>
                     </div>
@@ -2638,6 +2683,7 @@
             albums: [],
             members: [],
             favorites: [],
+            comments: {},
             currentViewerIndex: 0,
             currentViewerList: [],
             isDark: false,
@@ -2647,7 +2693,15 @@
             currentUser: null,
             hasSeenTutorial: false,
             tutorialStep: 0,
-            isTutorialActive: false
+            isTutorialActive: false,
+            groups: [],
+            invitations: [],
+            notifications: [],
+            settings: {
+                theme: 'dark',
+                notifications: true,
+                privacy: 'group'
+            }
         };
 
         // ============================================================
@@ -2655,53 +2709,65 @@
         // ============================================================
         var SAMPLE_PHOTOS = [
             { id: 1, url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=400&fit=crop&crop=center',
-                title: 'Familia en la playa', date: '2024-08-20' },
+                title: 'Familia en la playa', date: '2024-08-20', message: 'Un día perfecto junto al mar.', location: 'Santa Marta',
+                uploadedBy: 'María Vivas' },
             { id: 2, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=400&fit=crop&crop=center',
-                title: 'Cumpleaños de Sofía', date: '2024-07-15' },
+                title: 'Cumpleaños de Sofía', date: '2024-07-15', message: 'Sofía cumple 10 años. Qué rápido pasa el tiempo.',
+                location: 'Casa familiar', uploadedBy: 'Carlos Vivas' },
             { id: 3, url: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=400&h=400&fit=crop&crop=center',
-                title: 'Reunión familiar', date: '2024-06-10' },
+                title: 'Reunión familiar', date: '2024-06-10', message: 'Todos juntos, como debe ser.', location: 'Medellín',
+                uploadedBy: 'María Vivas' },
             { id: 4, url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop&crop=center',
-                title: 'Navidad en casa', date: '2023-12-25' },
+                title: 'Navidad en casa', date: '2023-12-25', message: 'La mejor navidad en familia.', location: 'Casa',
+                uploadedBy: 'Carlos Vivas' },
             { id: 5, url: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&h=400&fit=crop&crop=center',
-                title: 'Paseo en bicicleta', date: '2024-05-01' },
+                title: 'Paseo en bicicleta', date: '2024-05-01', message: 'Aventura en bicicleta por el pueblo.',
+                location: 'Salento', uploadedBy: 'Juan Vivas' },
             { id: 6, url: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=400&h=400&fit=crop&crop=center',
-                title: 'Atardecer en la montaña', date: '2024-04-20' },
+                title: 'Atardecer en la montaña', date: '2024-04-20', message: 'La vista desde arriba es impresionante.',
+                location: 'Montaña', uploadedBy: 'Sofía Vivas' },
             { id: 7, url: 'https://images.unsplash.com/photo-1527515545081-5f8178b8e4c0?w=400&h=400&fit=crop&crop=center',
-                title: 'Comida familiar', date: '2024-03-12' },
+                title: 'Comida familiar', date: '2024-03-12', message: 'Deliciosa comida preparada con amor.',
+                location: 'Casa', uploadedBy: 'María Vivas' },
             { id: 8, url: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=400&fit=crop&crop=center',
-                title: 'Viaje a la playa', date: '2024-02-28' },
+                title: 'Viaje a la playa', date: '2024-02-28', message: 'Un viaje inolvidable.', location: 'Cartagena',
+                uploadedBy: 'Carlos Vivas' },
             { id: 9, url: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=400&h=400&fit=crop&crop=center',
-                title: 'Nueva mascota', date: '2024-01-14' },
+                title: 'Nueva mascota', date: '2024-01-14', message: 'Luna, la nueva integrante de la familia.',
+                location: 'Casa', uploadedBy: 'Sofía Vivas' },
             { id: 10, url: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=400&h=400&fit=crop&crop=center',
-                title: 'Graduación', date: '2023-11-05' },
+                title: 'Graduación', date: '2023-11-05', message: 'Un logro más en familia.', location: 'Universidad',
+                uploadedBy: 'María Vivas' },
             { id: 11, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=400&fit=crop&crop=center',
-                title: 'Bautizo', date: '2023-10-20' },
+                title: 'Bautizo', date: '2023-10-20', message: 'Un momento especial para toda la familia.',
+                location: 'Iglesia', uploadedBy: 'Carlos Vivas' },
             { id: 12, url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop&crop=center',
-                title: 'Año nuevo', date: '2024-01-01' },
+                title: 'Año nuevo', date: '2024-01-01', message: 'Un nuevo año lleno de esperanza.', location: 'Casa',
+                uploadedBy: 'María Vivas' },
         ];
 
         var SAMPLE_ALBUMS = [
-            { id: 1, name: 'Vacaciones 2024', count: 48,
+            { id: 1, name: 'Vacaciones 2024', count: 48, description: 'Nuestras vacaciones en la playa.',
                 cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center' },
-            { id: 2, name: 'Cumpleaños', count: 23,
+            { id: 2, name: 'Cumpleaños', count: 23, description: 'Celebraciones familiares.',
                 cover: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=200&h=200&fit=crop&crop=center' },
-            { id: 3, name: 'Navidad', count: 156,
+            { id: 3, name: 'Navidad', count: 156, description: 'La magia de la navidad en familia.',
                 cover: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=200&h=200&fit=crop&crop=center' },
-            { id: 4, name: 'Boda', count: 87,
+            { id: 4, name: 'Boda', count: 87, description: 'El día más feliz.',
                 cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center' },
-            { id: 5, name: 'Bautizo', count: 34,
+            { id: 5, name: 'Bautizo', count: 34, description: 'Bienvenida a la fe.',
                 cover: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=200&h=200&fit=crop&crop=center' },
-            { id: 6, name: 'Viajes', count: 62,
+            { id: 6, name: 'Viajes', count: 62, description: 'Aventuras por el mundo.',
                 cover: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=200&h=200&fit=crop&crop=center' },
         ];
 
         var SAMPLE_MEMBERS = [
-            { id: 1, name: 'María Vivas', role: 'Administradora', color: '#6c5ce7' },
+            { id: 1, name: 'María Vivas', role: 'Administradora', color: '#8b5cf6' },
             { id: 2, name: 'Carlos Vivas', role: 'Adulto', color: '#4a90e2' },
-            { id: 3, name: 'Sofía Vivas', role: 'Joven', color: '#00b894' },
-            { id: 4, name: 'Juan Vivas', role: 'Joven', color: '#9b59b6' },
-            { id: 5, name: 'Ana Gómez', role: 'Invitada', color: '#fd79a8' },
-            { id: 6, name: 'Pedro Gómez', role: 'Invitado', color: '#1abc9c' },
+            { id: 3, name: 'Sofía Vivas', role: 'Joven', color: '#22d3ee' },
+            { id: 4, name: 'Juan Vivas', role: 'Joven', color: '#ec4899' },
+            { id: 5, name: 'Ana Gómez', role: 'Invitada', color: '#f59e0b' },
+            { id: 6, name: 'Pedro Gómez', role: 'Invitado', color: '#10b981' },
         ];
 
         var TUTORIAL_STEPS = [{
@@ -2728,6 +2794,10 @@
             icon: 'fa-user',
             title: 'Perfil',
             desc: 'Configura tu cuenta, ajusta privacidad, cambia el tema y accede a la ayuda.'
+        }, {
+            icon: 'fa-clock',
+            title: 'Recuerdos',
+            desc: 'Explora la línea de tiempo de tu familia y revive momentos especiales.'
         }];
 
         // ============================================================
@@ -2751,6 +2821,11 @@
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
+        function formatDateShort(d) {
+            var date = new Date(d);
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
         function getGreeting() {
             var h = new Date().getHours();
             if (h < 12) return 'Buenos días';
@@ -2770,12 +2845,24 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
+        function generateGroupCode() {
+            var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            var code = '';
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                if (i < 3) code += '-';
+            }
+            return code;
+        }
+
         // ============================================================
         // 4. PERSISTENCIA
         // ============================================================
         function loadState() {
             try {
-                var saved = localStorage.getItem('familia_state_v3');
+                var saved = localStorage.getItem('familia_state_v4');
                 if (saved) {
                     var parsed = JSON.parse(saved);
                     STATE.photos = parsed.photos || [];
@@ -2786,6 +2873,11 @@
                     STATE.currentUser = parsed.currentUser || null;
                     STATE.hasSeenTutorial = parsed.hasSeenTutorial || false;
                     STATE.isLoggedIn = !!STATE.currentUser;
+                    STATE.groups = parsed.groups || [];
+                    STATE.invitations = parsed.invitations || [];
+                    STATE.notifications = parsed.notifications || [];
+                    STATE.comments = parsed.comments || {};
+                    STATE.settings = parsed.settings || { theme: 'dark', notifications: true, privacy: 'group' };
                     return true;
                 }
             } catch (e) { /* ignore */ }
@@ -2794,14 +2886,19 @@
 
         function saveState() {
             try {
-                localStorage.setItem('familia_state_v3', JSON.stringify({
+                localStorage.setItem('familia_state_v4', JSON.stringify({
                     photos: STATE.photos,
                     albums: STATE.albums,
                     members: STATE.members,
                     favorites: STATE.favorites,
                     isDark: STATE.isDark,
                     currentUser: STATE.currentUser,
-                    hasSeenTutorial: STATE.hasSeenTutorial
+                    hasSeenTutorial: STATE.hasSeenTutorial,
+                    groups: STATE.groups,
+                    invitations: STATE.invitations,
+                    notifications: STATE.notifications,
+                    comments: STATE.comments,
+                    settings: STATE.settings
                 }));
             } catch (e) { /* ignore */ }
         }
@@ -2815,6 +2912,11 @@
                 STATE.currentUser = null;
                 STATE.isLoggedIn = false;
                 STATE.hasSeenTutorial = false;
+                STATE.groups = [];
+                STATE.invitations = [];
+                STATE.notifications = [];
+                STATE.comments = {};
+                STATE.settings = { theme: 'dark', notifications: true, privacy: 'group' };
                 saveState();
             }
             STATE.favorites = STATE.favorites.filter(function(fid) {
@@ -2918,7 +3020,10 @@
             if (search.trim()) {
                 var term = search.toLowerCase().trim();
                 photos = photos.filter(function(p) {
-                    return p.title.toLowerCase().indexOf(term) > -1 || p.date.indexOf(term) > -1;
+                    return p.title.toLowerCase().indexOf(term) > -1 ||
+                        p.message.toLowerCase().indexOf(term) > -1 ||
+                        p.location.toLowerCase().indexOf(term) > -1 ||
+                        p.date.indexOf(term) > -1;
                 });
             }
 
@@ -3073,7 +3178,14 @@
             var info = document.getElementById('viewerInfo');
 
             img.src = photo.url;
-            info.textContent = photo.title + ' · ' + formatDate(photo.date);
+
+            // Mostrar título, mensaje y fecha
+            var infoText = photo.title;
+            if (photo.message) infoText += ' · ' + photo.message;
+            infoText += ' · ' + formatDate(photo.date);
+            if (photo.location) infoText += ' · ' + photo.location;
+            info.textContent = infoText;
+
             viewer.classList.add('active');
             document.body.style.overflow = 'hidden';
 
@@ -3199,8 +3311,8 @@
                 id: Date.now(),
                 name: name.trim(),
                 count: 0,
-                cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center',
-                description: description.trim()
+                description: description.trim() || 'Sin descripción',
+                cover: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop&crop=center'
             };
             STATE.albums.unshift(newAlbum);
             saveState();
@@ -3220,7 +3332,7 @@
                 id: Date.now(),
                 name: email.split('@')[0],
                 role: role,
-                color: '#95a5a6'
+                color: '#8b5cf6'
             };
             STATE.members.push(newMember);
             saveState();
@@ -3239,6 +3351,7 @@
             document.getElementById('themeSwitch').classList.toggle('active', STATE.isDark);
             document.getElementById('btnThemeToggle').innerHTML =
                 '<i class="fas ' + (STATE.isDark ? 'fa-sun' : 'fa-moon') + '"></i>';
+            STATE.settings.theme = STATE.isDark ? 'dark' : 'light';
             saveState();
         }
 
@@ -3255,7 +3368,7 @@
         }
 
         // ============================================================
-        // 12. LOGIN / REGISTER - CORREGIDO
+        // 12. LOGIN / REGISTER
         // ============================================================
         function showRegisterScreen() {
             document.getElementById('login-screen').style.display = 'none';
@@ -3285,7 +3398,6 @@
             errorEl.classList.remove('show');
             successEl.classList.remove('show');
 
-            // Validaciones
             if (!name) {
                 errorEl.textContent = 'El nombre es requerido';
                 errorEl.classList.add('show');
@@ -3316,21 +3428,15 @@
                 return;
             }
 
-            // Estado de carga
             btn.classList.add('loading');
 
-            // Simular procesamiento
             setTimeout(function() {
                 btn.classList.remove('loading');
 
-                // Verificar si el usuario ya existe
                 var existingUsers = JSON.parse(localStorage.getItem('familia_users') || '[]');
                 var userExists = false;
                 for (var i = 0; i < existingUsers.length; i++) {
-                    if (existingUsers[i].email === email) {
-                        userExists = true;
-                        break;
-                    }
+                    if (existingUsers[i].email === email) { userExists = true; break; }
                 }
 
                 if (userExists) {
@@ -3339,15 +3445,12 @@
                     return;
                 }
 
-                // Guardar usuario
                 existingUsers.push({ name: name, email: email, password: password });
                 localStorage.setItem('familia_users', JSON.stringify(existingUsers));
 
-                // Mostrar éxito
                 successEl.textContent = '¡Cuenta creada exitosamente!';
                 successEl.classList.add('show');
 
-                // Auto-login y redirección
                 setTimeout(function() {
                     STATE.currentUser = { name: name, email: email };
                     STATE.isLoggedIn = true;
@@ -3410,7 +3513,6 @@
                         }
                     }, 600);
                 } else {
-                    // Si no hay usuarios, crear uno de demostración
                     if (users.length === 0) {
                         users.push({ name: 'Familia Vivas', email: 'demo@familia.com', password: '123456' });
                         localStorage.setItem('familia_users', JSON.stringify(users));
@@ -3501,13 +3603,25 @@
         function enterApp() {
             document.getElementById('app').classList.add('active');
             var user = STATE.currentUser || { name: 'Familia Vivas', email: 'familia@vivas.com' };
-            document.getElementById('greetingText').textContent = getGreeting();
+            document.getElementById('greetingText').textContent = getGreeting() + ', ' + user.name;
             document.getElementById('userName').textContent = user.name;
             document.getElementById('headerAvatar').textContent = getInitials(user.name);
             document.getElementById('profileAvatar').textContent = getInitials(user.name);
             document.getElementById('profileName').textContent = user.name;
             document.getElementById('profileEmail').textContent = user.email || 'usuario@familia.com';
             navigateTo('home');
+
+            // Notificación de bienvenida
+            var welcomeNotif = {
+                id: Date.now(),
+                type: 'welcome',
+                message: 'Bienvenido a FAMILIA. Comienza a guardar tus recuerdos.',
+                read: false,
+                date: new Date().toISOString()
+            };
+            STATE.notifications.unshift(welcomeNotif);
+            saveState();
+
             showToast('Bienvenido a FAMILIA', 3000);
         }
 
@@ -3527,7 +3641,7 @@
         }
 
         // ============================================================
-        // 15. SUBIDA DE FOTOS
+        // 15. SUBIDA DE FOTOS CON MENSAJE
         // ============================================================
         function triggerUpload() {
             var input = document.createElement('input');
@@ -3537,10 +3651,49 @@
             input.onchange = function(e) {
                 var files = e.target.files;
                 if (files.length === 0) return;
-                showToast(files.length + ' archivos seleccionados', 2000);
 
-                var count = 0;
                 var fileArray = [].slice.call(files);
+
+                // Si es una sola foto, mostrar modal para agregar mensaje
+                if (fileArray.length === 1) {
+                    var file = fileArray[0];
+                    var reader = new FileReader();
+                    reader.onload = function(ev) {
+                        var previewUrl = ev.target.result;
+                        // Mostrar modal de mensaje
+                        var message = prompt('Agrega un mensaje para este recuerdo:', '');
+                        var title = prompt('Título de la foto:', file.name.replace(/\.[^/.]+$/, ''));
+                        var location = prompt('Lugar:', '');
+
+                        var newPhoto = {
+                            id: Date.now(),
+                            url: previewUrl,
+                            title: title || file.name.replace(/\.[^/.]+$/, ''),
+                            message: message || 'Un momento especial',
+                            date: new Date().toISOString().split('T')[0],
+                            location: location || 'Sin ubicación',
+                            uploadedBy: STATE.currentUser ? STATE.currentUser.name : 'Usuario'
+                        };
+                        STATE.photos.unshift(newPhoto);
+                        saveState();
+                        showToast('Recuerdo guardado', 3000);
+                        if (STATE.currentSection === 'home') {
+                            renderHomePhotos();
+                            renderFeaturedMemories();
+                            updateStats();
+                        } else if (STATE.currentSection === 'photos') {
+                            var filter = document.querySelector('.photos-toolbar .active');
+                            filter = filter ? filter.dataset.filter : 'all';
+                            renderAllPhotos(filter, document.getElementById('photoSearch').value);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                }
+
+                // Múltiples archivos
+                showToast(files.length + ' archivos seleccionados', 2000);
+                var count = 0;
                 fileArray.forEach(function(file) {
                     var reader = new FileReader();
                     reader.onload = function(ev) {
@@ -3548,13 +3701,16 @@
                             id: Date.now() + count,
                             url: ev.target.result,
                             title: file.name.replace(/\.[^/.]+$/, ''),
-                            date: new Date().toISOString().split('T')[0]
+                            message: 'Recuerdo familiar',
+                            date: new Date().toISOString().split('T')[0],
+                            location: 'Sin ubicación',
+                            uploadedBy: STATE.currentUser ? STATE.currentUser.name : 'Usuario'
                         };
                         STATE.photos.unshift(newPhoto);
                         count++;
                         if (count === files.length) {
                             saveState();
-                            showToast(count + ' fotos subidas', 3000);
+                            showToast(count + ' recuerdos guardados', 3000);
                             if (STATE.currentSection === 'home') {
                                 renderHomePhotos();
                                 renderFeaturedMemories();
@@ -3573,7 +3729,7 @@
         }
 
         // ============================================================
-        // 16. SETUP DE EVENTOS - CORREGIDO
+        // 16. SETUP DE EVENTOS
         // ============================================================
         function setupEvents() {
 
@@ -3697,15 +3853,6 @@
             var qaAlbum = document.getElementById('qaAlbum');
             if (qaAlbum) qaAlbum.addEventListener('click', openAlbumModal);
 
-            var qaFavorites = document.getElementById('qaFavorites');
-            if (qaFavorites) {
-                qaFavorites.addEventListener('click', function() {
-                    navigateTo('photos');
-                    var favBtn = document.querySelector('[data-filter="favorites"]');
-                    if (favBtn) favBtn.click();
-                });
-            }
-
             var qaFamily = document.getElementById('qaFamily');
             if (qaFamily) qaFamily.addEventListener('click', function() { navigateTo('family'); });
 
@@ -3716,7 +3863,8 @@
             var btnNotifications = document.getElementById('btnNotifications');
             if (btnNotifications) {
                 btnNotifications.addEventListener('click', function() {
-                    showToast('No tienes notificaciones nuevas');
+                    var count = STATE.notifications.filter(function(n) { return !n.read; }).length;
+                    showToast(count + ' notificaciones sin leer');
                 });
             }
 
@@ -3992,7 +4140,6 @@
             initData();
             applyTheme();
 
-            // Verificar si hay sesión guardada
             if (STATE.isLoggedIn && STATE.currentUser) {
                 document.getElementById('login-screen').style.display = 'none';
                 if (STATE.hasSeenTutorial) {
@@ -4006,7 +4153,7 @@
             }
 
             setupEvents();
-            console.log('FAMILIA · App profesional con glassmorphism');
+            console.log('FAMILIA · Aurora - Tu historia familiar iluminada');
             console.log(STATE.photos.length + ' fotos, ' + STATE.albums.length +
                 ' álbumes, ' + STATE.members.length + ' miembros');
         }
@@ -4029,7 +4176,7 @@
 <!-- COMIENZA PARTE 3/3 - CONTINUACIÓN EXACTA                    -->
 <!-- ============================================================ -->
 
-<!-- No hay más JavaScript, la aplicación ya está completa.      -->
+<!-- No hay más código JavaScript, la aplicación está completa.  -->
 <!-- El cierre de la IIFE y todo el código ya está en la Parte 2. -->
 <!-- Este es el marcador de cierre del proyecto.                  -->
 
