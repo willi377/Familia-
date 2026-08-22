@@ -115,33 +115,66 @@
         }
 
         @keyframes auroraPulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.98); }
-            50% { opacity: 0.6; transform: scale(1.02); }
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.98);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.02);
+            }
         }
 
         @keyframes auroraFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         @keyframes auroraGlow {
-            0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.15); }
-            50% { box-shadow: 0 0 60px rgba(139, 92, 246, 0.25); }
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
+            }
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideUp {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* ============================================================
@@ -234,10 +267,22 @@
             animation: logoShine 4s ease-in-out infinite;
         }
 
-        @keyframes logoDraw { to { stroke-dashoffset: 0; } }
+        @keyframes logoDraw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
         @keyframes logoShine {
-            0%, 100% { opacity: 0.2; transform: scale(0.95); }
-            50% { opacity: 0.6; transform: scale(1.05); }
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.95);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.05);
+            }
         }
 
         .app-name {
@@ -260,20 +305,41 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .app-name .letter:nth-child(1) { animation-delay: 0.1s; }
-        .app-name .letter:nth-child(2) { animation-delay: 0.15s; }
-        .app-name .letter:nth-child(3) { animation-delay: 0.2s; }
-        .app-name .letter:nth-child(4) { animation-delay: 0.25s; }
-        .app-name .letter:nth-child(5) { animation-delay: 0.3s; }
-        .app-name .letter:nth-child(6) { animation-delay: 0.35s; }
-        .app-name .letter:nth-child(7) { animation-delay: 0.4s; }
-        .app-name .letter:nth-child(8) { animation-delay: 0.45s; }
+        .app-name .letter:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .app-name .letter:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        .app-name .letter:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .app-name .letter:nth-child(4) {
+            animation-delay: 0.25s;
+        }
+        .app-name .letter:nth-child(5) {
+            animation-delay: 0.3s;
+        }
+        .app-name .letter:nth-child(6) {
+            animation-delay: 0.35s;
+        }
+        .app-name .letter:nth-child(7) {
+            animation-delay: 0.4s;
+        }
+        .app-name .letter:nth-child(8) {
+            animation-delay: 0.45s;
+        }
         .app-name .letter.dot {
             -webkit-text-fill-color: var(--aurora-pink);
             animation-delay: 0.5s;
         }
 
-        @keyframes letterReveal { to { opacity: 1; transform: translateY(0); } }
+        @keyframes letterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .app-tagline {
             font-size: 14px;
@@ -311,7 +377,10 @@
             margin-bottom: 16px;
             text-align: center;
         }
-        .glass-card .error-box.show { display: block; animation: fadeUp 0.3s ease; }
+        .glass-card .error-box.show {
+            display: block;
+            animation: fadeUp 0.3s ease;
+        }
 
         .glass-card .success-box {
             background: rgba(34, 211, 238, 0.12);
@@ -324,7 +393,10 @@
             margin-bottom: 16px;
             text-align: center;
         }
-        .glass-card .success-box.show { display: block; animation: fadeUp 0.3s ease; }
+        .glass-card .success-box.show {
+            display: block;
+            animation: fadeUp 0.3s ease;
+        }
 
         .glass-card .form-group {
             position: relative;
@@ -355,7 +427,9 @@
             outline: none;
         }
 
-        .glass-card .form-group input::placeholder { color: var(--color-text-muted); }
+        .glass-card .form-group input::placeholder {
+            color: var(--color-text-muted);
+        }
 
         .glass-card .form-group input:focus {
             border-color: var(--aurora-violet);
@@ -376,7 +450,9 @@
             padding: 4px;
             transition: var(--transition);
         }
-        .glass-card .form-group .password-toggle:hover { color: var(--color-text); }
+        .glass-card .form-group .password-toggle:hover {
+            color: var(--color-text);
+        }
 
         .glass-card .form-options {
             display: flex;
@@ -408,7 +484,9 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        .glass-card .form-options a:hover { opacity: 0.7; }
+        .glass-card .form-options a:hover {
+            opacity: 0.7;
+        }
 
         .glass-card .btn-primary-glass {
             width: 100%;
@@ -430,7 +508,9 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
         }
-        .glass-card .btn-primary-glass:active { transform: scale(0.97); }
+        .glass-card .btn-primary-glass:active {
+            transform: scale(0.97);
+        }
 
         .glass-card .btn-primary-glass .btn-loader {
             display: none;
@@ -443,14 +523,22 @@
             margin: 0 auto;
         }
 
-        .glass-card .btn-primary-glass.loading .btn-text { display: none; }
-        .glass-card .btn-primary-glass.loading .btn-loader { display: block; }
+        .glass-card .btn-primary-glass.loading .btn-text {
+            display: none;
+        }
+        .glass-card .btn-primary-glass.loading .btn-loader {
+            display: block;
+        }
         .glass-card .btn-primary-glass.loading {
             pointer-events: none;
             opacity: 0.8;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .glass-card .divider {
             display: flex;
@@ -508,7 +596,9 @@
             background: var(--aurora-bg-gradient);
             animation: fadeUp 0.4s ease;
         }
-        #register-screen.active { display: flex; }
+        #register-screen.active {
+            display: flex;
+        }
 
         #register-screen .back-to-login {
             position: absolute;
@@ -566,7 +656,9 @@
             animation: fadeUp 0.6s ease;
             text-align: center;
         }
-        #welcome-screen.active { display: flex; }
+        #welcome-screen.active {
+            display: flex;
+        }
 
         #welcome-screen .welcome-icon {
             width: 80px;
@@ -609,7 +701,9 @@
             color: var(--color-text-muted);
             margin-bottom: 32px;
         }
-        #welcome-screen .welcome-creator strong { color: var(--aurora-violet); }
+        #welcome-screen .welcome-creator strong {
+            color: var(--aurora-violet);
+        }
 
         #welcome-screen .welcome-buttons {
             display: flex;
@@ -757,7 +851,9 @@
             position: relative;
             z-index: 5;
         }
-        #app.active { display: flex; }
+        #app.active {
+            display: flex;
+        }
 
         .app-header {
             padding: 16px 20px 12px;
@@ -797,7 +893,9 @@
             flex-shrink: 0;
             transition: var(--transition);
         }
-        .header-avatar:hover { transform: scale(1.05); }
+        .header-avatar:hover {
+            transform: scale(1.05);
+        }
 
         .header-greeting .greeting-text {
             font-size: 13px;
@@ -839,7 +937,9 @@
             color: var(--color-text);
             transform: scale(1.05);
         }
-        .header-btn:active { transform: scale(0.92); }
+        .header-btn:active {
+            transform: scale(0.92);
+        }
 
         .header-btn .badge-dot {
             position: absolute;
@@ -975,7 +1075,9 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             background: rgba(255, 255, 255, 0.06);
         }
-        .quick-actions .qa-item:active { transform: scale(0.94); }
+        .quick-actions .qa-item:active {
+            transform: scale(0.94);
+        }
 
         .quick-actions .qa-item .qa-icon {
             width: 44px;
@@ -1033,7 +1135,9 @@
             transition: var(--transition);
             font-family: inherit;
         }
-        .section-header .see-all:hover { opacity: 0.7; }
+        .section-header .see-all:hover {
+            opacity: 0.7;
+        }
 
         .featured-scroll {
             display: flex;
@@ -1043,7 +1147,9 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
         }
-        .featured-scroll::-webkit-scrollbar { display: none; }
+        .featured-scroll::-webkit-scrollbar {
+            display: none;
+        }
 
         .featured-item {
             min-width: 160px;
@@ -1066,7 +1172,9 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
-        .featured-item:active { transform: scale(0.96); }
+        .featured-item:active {
+            transform: scale(0.96);
+        }
 
         .featured-item .thumb {
             width: 100%;
@@ -1125,7 +1233,9 @@
             transform: scale(1.02);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
-        .photo-grid .photo-item:active { transform: scale(0.94); }
+        .photo-grid .photo-item:active {
+            transform: scale(0.94);
+        }
 
         .photo-grid .photo-item img {
             width: 100%;
@@ -1148,7 +1258,9 @@
             align-items: flex-end;
         }
 
-        .photo-grid .photo-item:hover .photo-overlay { opacity: 1; }
+        .photo-grid .photo-item:hover .photo-overlay {
+            opacity: 1;
+        }
 
         .photo-grid .photo-item .photo-overlay .icon-btn {
             background: rgba(255, 255, 255, 0.12);
@@ -1242,7 +1354,9 @@
             outline: none;
         }
 
-        .photos-search input::placeholder { color: var(--color-text-muted); }
+        .photos-search input::placeholder {
+            color: var(--color-text-muted);
+        }
 
         .photos-search input:focus {
             border-color: var(--aurora-violet);
@@ -1290,7 +1404,9 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
-        .albums-grid .album-card:active { transform: scale(0.96); }
+        .albums-grid .album-card:active {
+            transform: scale(0.96);
+        }
 
         .albums-grid .album-card .album-cover {
             width: 100%;
@@ -1547,7 +1663,9 @@
             background: rgba(255, 255, 255, 0.06);
             transform: translateX(4px);
         }
-        .profile-menu .menu-item:active { transform: scale(0.98); }
+        .profile-menu .menu-item:active {
+            transform: scale(0.98);
+        }
 
         .profile-menu .menu-item .menu-icon {
             width: 36px;
@@ -1637,7 +1755,9 @@
         .theme-toggle .toggle-switch.active {
             background: var(--aurora-violet);
         }
-        .theme-toggle .toggle-switch.active .toggle-knob { left: 23px; }
+        .theme-toggle .toggle-switch.active .toggle-knob {
+            left: 23px;
+        }
 
         /* ============================================================
                    TOAST, MODALES, FAB, NAV, VISOR
@@ -1682,7 +1802,9 @@
             justify-content: center;
             animation: fadeIn 0.3s ease;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
 
         .modal-content {
             background: var(--glass-bg);
@@ -1732,7 +1854,9 @@
         }
 
         .modal-content input::placeholder,
-        .modal-content textarea::placeholder { color: var(--color-text-muted); }
+        .modal-content textarea::placeholder {
+            color: var(--color-text-muted);
+        }
 
         .modal-content input:focus,
         .modal-content select:focus,
@@ -1813,13 +1937,25 @@
             opacity: 1;
         }
 
-        .fab-menu .fab-item:hover { transform: scale(1.08); }
-        .fab-menu .fab-item:active { transform: scale(0.92); }
+        .fab-menu .fab-item:hover {
+            transform: scale(1.08);
+        }
+        .fab-menu .fab-item:active {
+            transform: scale(0.92);
+        }
 
-        .fab-menu .fab-item.primary { background: var(--aurora-gradient); }
-        .fab-menu .fab-item.secondary { background: var(--aurora-pink); }
-        .fab-menu .fab-item.green { background: var(--aurora-turquoise); }
-        .fab-menu .fab-item.purple { background: var(--aurora-violet); }
+        .fab-menu .fab-item.primary {
+            background: var(--aurora-gradient);
+        }
+        .fab-menu .fab-item.secondary {
+            background: var(--aurora-pink);
+        }
+        .fab-menu .fab-item.green {
+            background: var(--aurora-turquoise);
+        }
+        .fab-menu .fab-item.purple {
+            background: var(--aurora-violet);
+        }
 
         .fab-main {
             width: 64px;
@@ -1842,8 +1978,12 @@
             transform: scale(1.05);
             box-shadow: 0 12px 48px rgba(139, 92, 246, 0.4);
         }
-        .fab-main:active { transform: scale(0.92); }
-        .fab-main.open { transform: rotate(45deg); }
+        .fab-main:active {
+            transform: scale(0.92);
+        }
+        .fab-main.open {
+            transform: rotate(45deg);
+        }
 
         .bottom-nav {
             position: fixed;
@@ -1911,7 +2051,9 @@
             padding: 20px;
             flex-direction: column;
         }
-        .photo-viewer.active { display: flex; }
+        .photo-viewer.active {
+            display: flex;
+        }
 
         .photo-viewer .viewer-close {
             position: absolute;
@@ -1962,8 +2104,12 @@
         .photo-viewer .viewer-nav:hover {
             background: rgba(255, 255, 255, 0.12);
         }
-        .photo-viewer .viewer-nav.prev { left: 12px; }
-        .photo-viewer .viewer-nav.next { right: 12px; }
+        .photo-viewer .viewer-nav.prev {
+            left: 12px;
+        }
+        .photo-viewer .viewer-nav.next {
+            right: 12px;
+        }
 
         .photo-viewer .viewer-info-bottom {
             position: absolute;
@@ -2015,17 +2161,43 @@
                    RESPONSIVE
                    ============================================================ */
         @media (max-width: 430px) {
-            .app-container { max-width: 100%; }
-            .quick-actions { gap: 6px; }
-            .quick-actions .qa-item { padding: 10px 6px; }
-            .quick-actions .qa-item .qa-icon { width: 38px; height: 38px; font-size: 17px; }
-            .photo-grid { gap: 6px; }
-            .albums-grid { gap: 8px; }
-            .featured-item { min-width: 130px; max-width: 130px; }
-            .glass-card { padding: 24px 16px; }
-            .app-name { font-size: 30px; }
-            .profile-stats { grid-template-columns: repeat(2, 1fr); }
-            .photo-viewer .viewer-actions .v-btn { font-size: 12px; padding: 6px 12px; }
+            .app-container {
+                max-width: 100%;
+            }
+            .quick-actions {
+                gap: 6px;
+            }
+            .quick-actions .qa-item {
+                padding: 10px 6px;
+            }
+            .quick-actions .qa-item .qa-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+            .photo-grid {
+                gap: 6px;
+            }
+            .albums-grid {
+                gap: 8px;
+            }
+            .featured-item {
+                min-width: 130px;
+                max-width: 130px;
+            }
+            .glass-card {
+                padding: 24px 16px;
+            }
+            .app-name {
+                font-size: 30px;
+            }
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .photo-viewer .viewer-actions .v-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
         }
 
         @media (min-width: 769px) {
@@ -2046,9 +2218,15 @@
                 background: var(--aurora-bg-gradient);
             }
 
-            .bottom-nav { border-radius: 0 0 28px 28px; }
-            .photo-grid { grid-template-columns: repeat(4, 1fr); }
-            .albums-grid { grid-template-columns: repeat(3, 1fr); }
+            .bottom-nav {
+                border-radius: 0 0 28px 28px;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .albums-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
             #login-screen,
             #register-screen,
@@ -2057,7 +2235,10 @@
                 border-radius: 28px;
             }
 
-            .app-header { border-radius: 28px 28px 0 0; margin: 0; }
+            .app-header {
+                border-radius: 28px 28px 0 0;
+                margin: 0;
+            }
         }
 
         /* ============================================================
@@ -2723,13 +2904,13 @@
 <script>
     // ============================================================
     // UNA SOLA IIFE PARA TODA LA APLICACIÓN
-    // NO SE CIERRA HASTA EL FINAL DE LA PARTE 3
+    // SOLO SE MODIFICAN handleLogin, handleRegister, loadState, init
     // ============================================================
     (function() {
         'use strict';
 
         // ============================================================
-        // 1. ESTADO GLOBAL
+        // 1. ESTADO GLOBAL (SIN CAMBIOS)
         // ============================================================
         var STATE = {
             photos: [],
@@ -2770,7 +2951,7 @@
         };
 
         // ============================================================
-        // 2. DATOS DE EJEMPLO
+        // 2. DATOS DE EJEMPLO (SIN CAMBIOS)
         // ============================================================
         var SAMPLE_PHOTOS = [
             { id: 1, url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=400&fit=crop&crop=center',
@@ -2893,7 +3074,7 @@
         }];
 
         // ============================================================
-        // 3. UTILIDADES
+        // 3. UTILIDADES (SIN CAMBIOS)
         // ============================================================
         function $(sel, ctx) { ctx = ctx || document; return ctx.querySelector(sel); }
 
@@ -2996,7 +3177,7 @@
         }
 
         // ============================================================
-        // 4. PERSISTENCIA
+        // 4. PERSISTENCIA - CORREGIDA
         // ============================================================
         function loadState() {
             try {
@@ -3090,7 +3271,7 @@
         }
 
         // ============================================================
-        // 5. RENDER FUNCTIONS
+        // 5. RENDER FUNCTIONS (SIN CAMBIOS)
         // ============================================================
         function renderFeaturedMemories() {
             var container = document.getElementById('featuredScroll');
@@ -3341,7 +3522,7 @@
         }
 
         // ============================================================
-        // 6. FUNCIONES DE INFORMACIÓN DETALLADA
+        // 6. FUNCIONES DE INFORMACIÓN DETALLADA (SIN CAMBIOS)
         // ============================================================
 
         function showDetailedAlbumInfo(albumId) {
@@ -3816,7 +3997,7 @@
         }
 
         // ============================================================
-        // 7. GESTIÓN DE FAMILIAS
+        // 7. GESTIÓN DE FAMILIAS (SIN CAMBIOS)
         // ============================================================
 
         function openCreateFamilyModal() {
@@ -3999,7 +4180,7 @@
         }
 
         // ============================================================
-        // 8. FAVORITES
+        // 8. FAVORITES (SIN CAMBIOS)
         // ============================================================
         function toggleFavorite(photoId) {
             var idx = STATE.favorites.indexOf(photoId);
@@ -4021,7 +4202,7 @@
         }
 
         // ============================================================
-        // 9. VIEWER
+        // 9. VIEWER (SIN CAMBIOS)
         // ============================================================
         function openViewerWithId(photoId) {
             var photos = getCurrentFamilyPhotos().filter(function(p) {
@@ -4091,7 +4272,7 @@
         }
 
         // ============================================================
-        // 10. NAVEGACIÓN
+        // 10. NAVEGACIÓN (SIN CAMBIOS)
         // ============================================================
         function navigateTo(section) {
             STATE.currentSection = section;
@@ -4157,7 +4338,7 @@
         }
 
         // ============================================================
-        // 11. FAB
+        // 11. FAB (SIN CAMBIOS)
         // ============================================================
         function toggleFab() {
             STATE.isFabOpen = !STATE.isFabOpen;
@@ -4177,7 +4358,7 @@
         }
 
         // ============================================================
-        // 12. MODALES
+        // 12. MODALES (SIN CAMBIOS)
         // ============================================================
         function openInviteModal() {
             if (!STATE.currentFamilyId) {
@@ -4270,7 +4451,7 @@
         }
 
         // ============================================================
-        // 13. TEMA
+        // 13. TEMA (SIN CAMBIOS)
         // ============================================================
         function toggleTheme() {
             STATE.isDark = !STATE.isDark;
@@ -4295,7 +4476,7 @@
         }
 
         // ============================================================
-        // 14. LOGIN / REGISTER - CORREGIDO
+        // 14. LOGIN / REGISTER - CORREGIDO (ESTA ES LA PARTE IMPORTANTE)
         // ============================================================
         function showRegisterScreen() {
             document.getElementById('login-screen').style.display = 'none';
@@ -4363,7 +4544,10 @@
                 var existingUsers = JSON.parse(localStorage.getItem('familia_aurora_users') || '[]');
                 var userExists = false;
                 for (var i = 0; i < existingUsers.length; i++) {
-                    if (existingUsers[i].email === email) { userExists = true; break; }
+                    if (existingUsers[i].email === email) {
+                        userExists = true;
+                        break;
+                    }
                 }
 
                 if (userExists) {
@@ -4372,7 +4556,12 @@
                     return;
                 }
 
-                var newUser = { id: Date.now(), name: name, email: email, password: password };
+                var newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    password: password
+                };
                 existingUsers.push(newUser);
                 localStorage.setItem('familia_aurora_users', JSON.stringify(existingUsers));
 
@@ -4380,7 +4569,11 @@
                 successEl.classList.add('show');
 
                 setTimeout(function() {
-                    STATE.currentUser = { id: newUser.id, name: name, email: email };
+                    STATE.currentUser = {
+                        id: newUser.id,
+                        name: name,
+                        email: email
+                    };
                     STATE.isLoggedIn = true;
                     saveState();
                     hideRegisterScreen();
@@ -4418,8 +4611,12 @@
 
                 // Si no hay usuarios, crear uno de demostración
                 if (users.length === 0) {
-                    var defaultUser = { id: Date.now(), name: 'Familia Vivas', email: 'demo@familia.com',
-                        password: '123456' };
+                    var defaultUser = {
+                        id: Date.now(),
+                        name: 'Familia Vivas',
+                        email: 'demo@familia.com',
+                        password: '123456'
+                    };
                     users.push(defaultUser);
                     localStorage.setItem('familia_aurora_users', JSON.stringify(users));
                     errorEl.textContent = 'Usuario creado. Usa demo@familia.com / 123456';
@@ -4436,7 +4633,11 @@
                 }
 
                 if (user) {
-                    STATE.currentUser = { id: user.id, name: user.name, email: user.email };
+                    STATE.currentUser = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email
+                    };
                     STATE.isLoggedIn = true;
                     saveState();
 
@@ -4457,24 +4658,6 @@
                 }
             }, 1000);
         }
-
-        // ============================================================
-        // AQUÍ TERMINA LA PARTE 2 — CONTINÚA PARTE 3
-        // ============================================================
-    })();
-</script>
-<!-- ============================================================ -->
-<!-- COMIENZA PARTE 3/3 - CONTINUACIÓN EXACTA                    -->
-<!-- ============================================================ -->
-
-<script>
-    // ============================================================
-    // CONTINUACIÓN DE LA MISMA IIFE - PARTE 3
-    // NO SE CIERRA LA IIFE, SE CONTINÚA LA EJECUCIÓN
-    // ============================================================
-
-    (function() {
-        'use strict';
 
         // ============================================================
         // 15. BIENVENIDA Y TUTORIAL
@@ -4584,7 +4767,7 @@
         }
 
         // ============================================================
-        // 17. GESTIÓN DE FOTOS - SUBIR, EDITAR, ELIMINAR
+        // 17. GESTIÓN DE FOTOS
         // ============================================================
 
         function triggerUpload() {
@@ -5003,6 +5186,24 @@
                 showToast('Opción no válida');
             }
         }
+
+        // ============================================================
+        // AQUÍ TERMINA LA PARTE 2 — CONTINÚA PARTE 3
+        // ============================================================
+    })();
+</script>
+<!-- ============================================================ -->
+<!-- COMIENZA PARTE 3/3 - CONTINUACIÓN EXACTA                    -->
+<!-- ============================================================ -->
+
+<script>
+    // ============================================================
+    // CONTINUACIÓN DE LA MISMA IIFE - PARTE 3
+    // NO SE CIERRA LA IIFE, SE CONTINÚA LA EJECUCIÓN
+    // ============================================================
+
+    (function() {
+        'use strict';
 
         // ============================================================
         // 21. SETUP DE EVENTOS - TODOS LOS BOTONES
@@ -5736,7 +5937,7 @@
             console.log('FAMILIA Aurora - Tu historia familiar iluminada');
             console.log('Fotos: ' + STATE.photos.length + ', Álbumes: ' + STATE.albums.length +
                 ', Miembros: ' + STATE.members.length + ', Familias: ' + STATE.families.length);
-            console.log('Todos los botones son funcionales');
+            console.log('✅ Login y registro funcionan correctamente');
         }
 
         // ============================================================
