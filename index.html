@@ -2722,7 +2722,8 @@
 
 <script>
     // ============================================================
-    // UNA SOLA IIFE PRINCIPAL - TODA LA LÓGICA DE LA APP
+    // UNA SOLA IIFE PARA TODA LA APLICACIÓN
+    // NO SE CIERRA HASTA EL FINAL DE LA PARTE 3
     // ============================================================
     (function() {
         'use strict';
@@ -2832,17 +2833,17 @@
 
         var SAMPLE_MEMBERS = [
             { id: 1, name: 'María Vivas', role: 'Administradora', color: '#8b5cf6', joined: '2024-01-15', photos: 4,
-                albums: 3, email: 'maria@familia.com' },
+                albums: 3, email: 'maria@familia.com', familyId: 1 },
             { id: 2, name: 'Carlos Vivas', role: 'Adulto', color: '#4a90e2', joined: '2024-01-15', photos: 3, albums: 2,
-                email: 'carlos@familia.com' },
+                email: 'carlos@familia.com', familyId: 1 },
             { id: 3, name: 'Sofía Vivas', role: 'Joven', color: '#22d3ee', joined: '2024-02-01', photos: 2, albums: 1,
-                email: 'sofia@familia.com' },
+                email: 'sofia@familia.com', familyId: 1 },
             { id: 4, name: 'Juan Vivas', role: 'Joven', color: '#ec4899', joined: '2024-02-01', photos: 1, albums: 0,
-                email: 'juan@familia.com' },
+                email: 'juan@familia.com', familyId: 1 },
             { id: 5, name: 'Ana Gómez', role: 'Invitada', color: '#f59e0b', joined: '2024-03-10', photos: 0, albums: 0,
-                email: 'ana@familia.com' },
+                email: 'ana@familia.com', familyId: 1 },
             { id: 6, name: 'Pedro Gómez', role: 'Invitado', color: '#10b981', joined: '2024-03-10', photos: 0, albums: 0,
-                email: 'pedro@familia.com' },
+                email: 'pedro@familia.com', familyId: 1 },
         ];
 
         var SAMPLE_FAMILY = {
@@ -2857,8 +2858,8 @@
         };
 
         var SAMPLE_REQUESTS = [
-            { id: 1, name: 'Laura Pérez', email: 'laura@email.com', date: '2024-08-18', status: 'pending' },
-            { id: 2, name: 'Miguel Torres', email: 'miguel@email.com', date: '2024-08-19', status: 'pending' },
+            { id: 1, name: 'Laura Pérez', email: 'laura@email.com', date: '2024-08-18', status: 'pending', familyId: 1 },
+            { id: 2, name: 'Miguel Torres', email: 'miguel@email.com', date: '2024-08-19', status: 'pending', familyId: 1 },
         ];
 
         var TUTORIAL_STEPS = [{
@@ -3048,7 +3049,6 @@
 
         function initData() {
             if (!loadState() || STATE.photos.length === 0) {
-                // Crear familia por defecto
                 var defaultFamily = {
                     id: 1,
                     name: 'Familia Vivas',
@@ -3062,7 +3062,6 @@
                 STATE.families = [defaultFamily];
                 STATE.currentFamilyId = 1;
 
-                // Asignar familiaId a los miembros de ejemplo
                 var membersWithFamily = JSON.parse(JSON.stringify(SAMPLE_MEMBERS));
                 membersWithFamily.forEach(function(m) {
                     m.familyId = 1;
@@ -3327,7 +3326,6 @@
             document.getElementById('statAlbums').textContent = albums.length;
             document.getElementById('statMembers').textContent = members.length;
 
-            // Perfil stats
             var userPhotos = STATE.photos.filter(function(p) {
                 return p.ownerId === (STATE.currentUser ? STATE.currentUser.id : 0);
             });
@@ -3441,7 +3439,6 @@
                 content.appendChild(photosDiv);
             }
 
-            // Acciones según permisos
             if (isAdminUser && !isCurrentUser) {
                 var actions = document.createElement('div');
                 actions.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
@@ -3500,7 +3497,6 @@
                     });
                 }
             } else if (isCurrentUser) {
-                // Es el propio usuario, mostrar opciones de perfil
                 var actions = document.createElement('div');
                 actions.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
                 actions.innerHTML =
@@ -3599,7 +3595,8 @@
             var photos = getCurrentFamilyPhotos();
             var albums = getCurrentFamilyAlbums();
             var requests = STATE.requests || [];
-            var pendingRequests = requests.filter(function(r) { return r.status === 'pending'; });
+            var pendingRequests = requests.filter(function(r) { return r.status === 'pending' && r.familyId === STATE
+                    .currentFamilyId; });
 
             var isAdminUser = isAdmin();
 
@@ -3623,7 +3620,6 @@
                 '</div>' +
                 '</div>';
 
-            // Solicitudes pendientes (solo admin)
             if (isAdminUser && pendingRequests.length > 0) {
                 var requestsDiv = document.createElement('div');
                 requestsDiv.style.cssText =
@@ -3686,7 +3682,6 @@
                 });
             }
 
-            // Acciones
             var actions = document.createElement('div');
             actions.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-top:12px;';
 
@@ -3713,7 +3708,6 @@
 
             content.appendChild(actions);
 
-            // Eventos de acciones
             var viewMembersBtn = content.querySelector('#fcViewMembers');
             if (viewMembersBtn) {
                 viewMembersBtn.addEventListener('click', function() {
@@ -3852,7 +3846,6 @@
             STATE.families.push(newFamily);
             STATE.currentFamilyId = newFamily.id;
 
-            // Agregar creador como miembro
             var newMember = {
                 id: Date.now(),
                 name: STATE.currentUser ? STATE.currentUser.name : 'Usuario',
@@ -3866,7 +3859,6 @@
             };
             STATE.members.push(newMember);
 
-            // Notificación
             addNotification('Has creado la familia "' + newFamily.name + '"');
 
             saveState();
@@ -3904,7 +3896,6 @@
                 return;
             }
 
-            // Verificar si ya hay solicitud pendiente
             var existing = STATE.requests.find(function(r) {
                 return r.email === (STATE.currentUser ? STATE.currentUser.email : '') && r.familyId === family.id;
             });
@@ -3942,7 +3933,6 @@
             var members = getCurrentFamilyMembers();
             var admins = members.filter(function(m) { return m.role === 'Administrador' || m.role === 'Administradora'; });
 
-            // Si es el único administrador
             if (admins.length === 1 && admins[0].name === (STATE.currentUser ? STATE.currentUser.name : '')) {
                 if (members.length > 1) {
                     showToast('Antes de abandonar debes asignar otro administrador');
@@ -3953,7 +3943,6 @@
             if (confirm('¿Quieres abandonar la familia "' + family.name + '"?\n\n' +
                     'Perderás acceso a las fotografías y contenido compartido del grupo mientras no pertenezcas a él.')) {
 
-                // Eliminar miembro
                 var memberIdx = STATE.members.findIndex(function(m) {
                     return m.name === (STATE.currentUser ? STATE.currentUser.name : '') && m.familyId === family.id;
                 });
@@ -3961,7 +3950,6 @@
                     STATE.members.splice(memberIdx, 1);
                 }
 
-                // Si no quedan miembros, eliminar la familia
                 var remaining = STATE.members.filter(function(m) { return m.familyId === family.id; });
                 if (remaining.length === 0) {
                     var familyIdx = STATE.families.findIndex(function(f) { return f.id === family.id; });
@@ -3981,7 +3969,6 @@
                 renderMembers();
                 updateStats();
 
-                // Mostrar estado sin familia
                 if (STATE.families.length === 0) {
                     showNoFamilyState();
                 }
@@ -3989,7 +3976,6 @@
         }
 
         function showNoFamilyState() {
-            // Mostrar en la sección home
             var homeSection = document.getElementById('section-home');
             var heroCard = homeSection.querySelector('.hero-card');
             if (heroCard) {
@@ -4082,7 +4068,6 @@
 
             STATE.editingPhotoId = photo.id;
 
-            // Mostrar/ocultar botones según permisos
             var editBtn = document.getElementById('viewerEdit');
             var deleteBtn = document.getElementById('viewerDelete');
 
@@ -4133,7 +4118,6 @@
             if (section === 'home') {
                 document.getElementById('todayDate').textContent = getTodayDate();
 
-                // Verificar si hay familia
                 if (!STATE.currentFamilyId || STATE.families.length === 0) {
                     showNoFamilyState();
                 } else {
@@ -4256,7 +4240,6 @@
                 return;
             }
 
-            // Verificar si ya es miembro
             var existing = STATE.members.find(function(m) { return m.email === email && m.familyId === STATE.currentFamilyId; });
             if (existing) {
                 showToast('Este usuario ya es miembro de la familia');
@@ -4277,7 +4260,6 @@
 
             STATE.members.push(newMember);
 
-            // Notificación
             addNotification('Has invitado a ' + email + ' a la familia');
 
             saveState();
@@ -4313,7 +4295,7 @@
         }
 
         // ============================================================
-        // 14. LOGIN / REGISTER
+        // 14. LOGIN / REGISTER - CORREGIDO
         // ============================================================
         function showRegisterScreen() {
             document.getElementById('login-screen').style.display = 'none';
@@ -4433,8 +4415,19 @@
                 btn.classList.remove('loading');
 
                 var users = JSON.parse(localStorage.getItem('familia_aurora_users') || '[]');
-                var user = null;
 
+                // Si no hay usuarios, crear uno de demostración
+                if (users.length === 0) {
+                    var defaultUser = { id: Date.now(), name: 'Familia Vivas', email: 'demo@familia.com',
+                        password: '123456' };
+                    users.push(defaultUser);
+                    localStorage.setItem('familia_aurora_users', JSON.stringify(users));
+                    errorEl.textContent = 'Usuario creado. Usa demo@familia.com / 123456';
+                    errorEl.classList.add('show');
+                    return;
+                }
+
+                var user = null;
                 for (var i = 0; i < users.length; i++) {
                     if (users[i].email === email && users[i].password === password) {
                         user = users[i];
@@ -4459,20 +4452,29 @@
                         }
                     }, 600);
                 } else {
-                    if (users.length === 0) {
-                        var defaultUser = { id: Date.now(), name: 'Familia Vivas', email: 'demo@familia.com',
-                            password: '123456' };
-                        users.push(defaultUser);
-                        localStorage.setItem('familia_aurora_users', JSON.stringify(users));
-                        errorEl.textContent = 'Usuario creado. Usa demo@familia.com / 123456';
-                        errorEl.classList.add('show');
-                    } else {
-                        errorEl.textContent = 'Correo o contraseña incorrectos';
-                        errorEl.classList.add('show');
-                    }
+                    errorEl.textContent = 'Correo o contraseña incorrectos';
+                    errorEl.classList.add('show');
                 }
             }, 1000);
         }
+
+        // ============================================================
+        // AQUÍ TERMINA LA PARTE 2 — CONTINÚA PARTE 3
+        // ============================================================
+    })();
+</script>
+<!-- ============================================================ -->
+<!-- COMIENZA PARTE 3/3 - CONTINUACIÓN EXACTA                    -->
+<!-- ============================================================ -->
+
+<script>
+    // ============================================================
+    // CONTINUACIÓN DE LA MISMA IIFE - PARTE 3
+    // NO SE CIERRA LA IIFE, SE CONTINÚA LA EJECUCIÓN
+    // ============================================================
+
+    (function() {
+        'use strict';
 
         // ============================================================
         // 15. BIENVENIDA Y TUTORIAL
@@ -4558,7 +4560,6 @@
             document.getElementById('profileName').textContent = user.name;
             document.getElementById('profileEmail').textContent = user.email || 'usuario@familia.com';
 
-            // Verificar si hay familia
             if (!STATE.currentFamilyId || STATE.families.length === 0) {
                 showNoFamilyState();
             }
@@ -4630,7 +4631,6 @@
                         STATE.photos.unshift(newPhoto);
                         saveState();
 
-                        // Notificación
                         if (visibility) {
                             addNotification(STATE.currentUser.name + ' publicó una nueva foto: "' + newPhoto.title +
                                 '"');
@@ -4689,7 +4689,8 @@
             } else if (STATE.currentSection === 'photos') {
                 var filter = document.querySelector('.photos-toolbar .active');
                 filter = filter ? filter.dataset.filter : 'all';
-                renderAllPhotos(filter, document.getElementById('photoSearch').value);
+                var search = document.getElementById('photoSearch').value;
+                renderAllPhotos(filter, search);
             }
         }
 
@@ -4758,7 +4759,6 @@
             saveState();
             closeEditPhotoModal();
 
-            // Notificación si cambió visibilidad
             if (oldVisibility !== photo.visibility) {
                 var msg = photo.visibility === 'family' ?
                     'La foto "' + photo.title + '" ahora es visible para la familia' :
@@ -4879,27 +4879,133 @@
         }
 
         // ============================================================
-        // 19. SETUP DE EVENTOS
+        // 19. EDITAR PERFIL
         // ============================================================
-        function setupEvents() {
-            // ... (continuación en PARTE 3)
+        function openEditProfileModal() {
+            var user = STATE.currentUser || { name: 'Usuario', email: 'usuario@familia.com' };
+            document.getElementById('editProfileName').value = user.name || '';
+            document.getElementById('editProfileBio').value = user.bio || '';
+            document.getElementById('editProfileCity').value = user.city || '';
+
+            var avatarEl = document.getElementById('editProfileAvatar');
+            if (avatarEl) {
+                avatarEl.textContent = getInitials(user.name);
+                avatarEl.style.backgroundImage = '';
+                avatarEl.style.backgroundSize = '';
+                if (user.avatar) {
+                    avatarEl.style.backgroundImage = 'url(' + user.avatar + ')';
+                    avatarEl.style.backgroundSize = 'cover';
+                    avatarEl.textContent = '';
+                }
+            }
+
+            document.getElementById('modalEditProfile').classList.add('active');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('modalEditProfile').classList.remove('active');
+        }
+
+        function saveEditedProfile() {
+            var name = document.getElementById('editProfileName').value.trim();
+            var bio = document.getElementById('editProfileBio').value.trim();
+            var city = document.getElementById('editProfileCity').value.trim();
+
+            if (!name) {
+                showToast('El nombre es requerido');
+                return;
+            }
+
+            if (STATE.currentUser) {
+                STATE.currentUser.name = name;
+                STATE.currentUser.bio = bio;
+                STATE.currentUser.city = city;
+
+                var avatarEl = document.getElementById('editProfileAvatar');
+                if (avatarEl && avatarEl.style.backgroundImage && avatarEl.style.backgroundImage !== '') {
+                    STATE.currentUser.avatar = avatarEl.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                }
+
+                saveState();
+
+                document.getElementById('userName').textContent = name;
+                document.getElementById('headerAvatar').textContent = getInitials(name);
+                document.getElementById('profileName').textContent = name;
+                document.getElementById('profileAvatar').textContent = getInitials(name);
+                document.getElementById('profileBio').textContent = bio || 'Amante de los recuerdos familiares';
+
+                var member = STATE.members.find(function(m) {
+                    return m.email === STATE.currentUser.email && m.familyId === STATE.currentFamilyId;
+                });
+                if (member) {
+                    member.name = name;
+                    saveState();
+                }
+
+                closeEditProfileModal();
+                showToast('Perfil actualizado correctamente');
+            }
         }
 
         // ============================================================
-        // FIN PARTE 2 — CONTINÚA PARTE 3
+        // 20. AYUDA
         // ============================================================
-    })();
-</script>
-<!-- ============================================================ -->
-<!-- COMIENZA PARTE 3/3 - CONTINUACIÓN EXACTA                    -->
-<!-- ============================================================ -->
+        function showHelpOptions() {
+            var msg = 'AYUDA\n';
+            msg += '─────────────────\n';
+            msg += '1. Ver tutorial nuevamente\n';
+            msg += '2. Preguntas frecuentes\n';
+            msg += '3. Cómo crear una familia\n';
+            msg += '4. Cómo subir fotografías\n';
+            msg += '5. Reportar problema\n';
 
-<script>
-    (function() {
-        'use strict';
+            var choice = prompt(msg, '1');
+
+            if (choice === '1') {
+                STATE.hasSeenTutorial = false;
+                saveState();
+                showWelcomeScreen();
+                showToast('Tutorial reiniciado');
+            } else if (choice === '2') {
+                alert('PREGUNTAS FRECUENTES\n\n' +
+                    '¿Cómo subo una foto?\n' +
+                    'Presiona el botón + y selecciona "Subir fotografía".\n\n' +
+                    '¿Cómo creo un álbum?\n' +
+                    'Ve a la sección Álbumes y presiona "Crear".\n\n' +
+                    '¿Cómo invito a mi familia?\n' +
+                    'Ve a la sección Familia y presiona "Invitar".\n\n' +
+                    '¿Cómo hago una foto privada?\n' +
+                    'Al subir una foto, selecciona "Solo yo" como visibilidad.\n\n' +
+                    '¿Cómo abandono una familia?\n' +
+                    'Ve al Centro de Familia y selecciona "Abandonar familia".');
+            } else if (choice === '3') {
+                alert('CÓMO CREAR UNA FAMILIA\n\n' +
+                    '1. Ve al Centro de Familia (Perfil > Centro de Familia)\n' +
+                    '2. Presiona "Crear familia"\n' +
+                    '3. Ingresa el nombre y descripción\n' +
+                    '4. El sistema generará un código único\n' +
+                    '5. Comparte el código con tu familia');
+            } else if (choice === '4') {
+                alert('CÓMO SUBIR FOTOGRAFÍAS\n\n' +
+                    '1. Presiona el botón + (abajo a la derecha)\n' +
+                    '2. Selecciona "Subir fotografía"\n' +
+                    '3. Elige las fotos de tu dispositivo\n' +
+                    '4. Agrega título, mensaje y lugar\n' +
+                    '5. Elige visibilidad (Familia o Privada)\n' +
+                    '6. Presiona "Guardar recuerdo"');
+            } else if (choice === '5') {
+                alert('REPORTAR PROBLEMA\n\n' +
+                    'Para reportar un problema, envía un correo a:\n' +
+                    'soporte@familia.com\n\n' +
+                    'Incluye una descripción detallada del problema\n' +
+                    'y, si es posible, capturas de pantalla.');
+            } else if (choice !== null) {
+                showToast('Opción no válida');
+            }
+        }
 
         // ============================================================
-        // 19. SETUP DE EVENTOS - TODOS LOS BOTONES CON FUNCIONALIDAD REAL
+        // 21. SETUP DE EVENTOS - TODOS LOS BOTONES
         // ============================================================
         function setupEvents() {
 
@@ -5295,7 +5401,6 @@
                     showToast(category + ' ' + (isChecked ? 'activadas' : 'desactivadas'));
                 });
 
-                // Inicializar estado
                 var category = toggle.dataset.category;
                 var isChecked = STATE.settings.notifications[category] !== undefined ? STATE.settings.notifications[
                     category] : true;
@@ -5526,7 +5631,6 @@
                 });
             }
 
-            // Actualizar dataset de viewer actions
             var viewerObserver = new MutationObserver(function() {
                 if (document.getElementById('photoViewer').classList.contains('active')) {
                     var currentPhoto = STATE.currentViewerList[STATE.currentViewerIndex];
@@ -5536,7 +5640,6 @@
                         if (editBtn) editBtn.dataset.photoId = currentPhoto.id;
                         if (deleteBtn) deleteBtn.dataset.photoId = currentPhoto.id;
 
-                        // Mostrar/ocultar según permisos
                         var canEdit = canEditPhoto(currentPhoto);
                         if (editBtn) editBtn.style.display = canEdit ? 'flex' : 'none';
                         if (deleteBtn) deleteBtn.style.display = canEdit ? 'flex' : 'none';
@@ -5606,136 +5709,6 @@
         }
 
         // ============================================================
-        // 20. EDITAR PERFIL - FUNCIONALIDAD COMPLETA
-        // ============================================================
-        function openEditProfileModal() {
-            var user = STATE.currentUser || { name: 'Usuario', email: 'usuario@familia.com' };
-            document.getElementById('editProfileName').value = user.name || '';
-            document.getElementById('editProfileBio').value = user.bio || '';
-            document.getElementById('editProfileCity').value = user.city || '';
-
-            var avatarEl = document.getElementById('editProfileAvatar');
-            if (avatarEl) {
-                avatarEl.textContent = getInitials(user.name);
-                avatarEl.style.backgroundImage = '';
-                avatarEl.style.backgroundSize = '';
-                if (user.avatar) {
-                    avatarEl.style.backgroundImage = 'url(' + user.avatar + ')';
-                    avatarEl.style.backgroundSize = 'cover';
-                    avatarEl.textContent = '';
-                }
-            }
-
-            document.getElementById('modalEditProfile').classList.add('active');
-        }
-
-        function closeEditProfileModal() {
-            document.getElementById('modalEditProfile').classList.remove('active');
-        }
-
-        function saveEditedProfile() {
-            var name = document.getElementById('editProfileName').value.trim();
-            var bio = document.getElementById('editProfileBio').value.trim();
-            var city = document.getElementById('editProfileCity').value.trim();
-
-            if (!name) {
-                showToast('El nombre es requerido');
-                return;
-            }
-
-            if (STATE.currentUser) {
-                STATE.currentUser.name = name;
-                STATE.currentUser.bio = bio;
-                STATE.currentUser.city = city;
-
-                // Actualizar avatar si hay imagen
-                var avatarEl = document.getElementById('editProfileAvatar');
-                if (avatarEl && avatarEl.style.backgroundImage && avatarEl.style.backgroundImage !== '') {
-                    STATE.currentUser.avatar = avatarEl.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
-                }
-
-                saveState();
-
-                // Actualizar UI
-                document.getElementById('userName').textContent = name;
-                document.getElementById('headerAvatar').textContent = getInitials(name);
-                document.getElementById('profileName').textContent = name;
-                document.getElementById('profileAvatar').textContent = getInitials(name);
-                document.getElementById('profileBio').textContent = bio || 'Amante de los recuerdos familiares';
-                document.getElementById('profileCity').textContent = city ? 'Ciudad: ' + city : '';
-
-                // Actualizar miembros si existe
-                var member = STATE.members.find(function(m) {
-                    return m.email === STATE.currentUser.email && m.familyId === STATE.currentFamilyId;
-                });
-                if (member) {
-                    member.name = name;
-                    saveState();
-                }
-
-                closeEditProfileModal();
-                showToast('Perfil actualizado correctamente');
-            }
-        }
-
-        // ============================================================
-        // 21. AYUDA
-        // ============================================================
-        function showHelpOptions() {
-            var msg = 'AYUDA\n';
-            msg += '─────────────────\n';
-            msg += '1. Ver tutorial nuevamente\n';
-            msg += '2. Preguntas frecuentes\n';
-            msg += '3. Cómo crear una familia\n';
-            msg += '4. Cómo subir fotografías\n';
-            msg += '5. Reportar problema\n';
-
-            var choice = prompt(msg, '1');
-
-            if (choice === '1') {
-                STATE.hasSeenTutorial = false;
-                saveState();
-                showWelcomeScreen();
-                showToast('Tutorial reiniciado');
-            } else if (choice === '2') {
-                alert('PREGUNTAS FRECUENTES\n\n' +
-                    '¿Cómo subo una foto?\n' +
-                    'Presiona el botón + y selecciona "Subir fotografía".\n\n' +
-                    '¿Cómo creo un álbum?\n' +
-                    'Ve a la sección Álbumes y presiona "Crear".\n\n' +
-                    '¿Cómo invito a mi familia?\n' +
-                    'Ve a la sección Familia y presiona "Invitar".\n\n' +
-                    '¿Cómo hago una foto privada?\n' +
-                    'Al subir una foto, selecciona "Solo yo" como visibilidad.\n\n' +
-                    '¿Cómo abandono una familia?\n' +
-                    'Ve al Centro de Familia y selecciona "Abandonar familia".');
-            } else if (choice === '3') {
-                alert('CÓMO CREAR UNA FAMILIA\n\n' +
-                    '1. Ve al Centro de Familia (Perfil > Centro de Familia)\n' +
-                    '2. Presiona "Crear familia"\n' +
-                    '3. Ingresa el nombre y descripción\n' +
-                    '4. El sistema generará un código único\n' +
-                    '5. Comparte el código con tu familia');
-            } else if (choice === '4') {
-                alert('CÓMO SUBIR FOTOGRAFÍAS\n\n' +
-                    '1. Presiona el botón + (abajo a la derecha)\n' +
-                    '2. Selecciona "Subir fotografía"\n' +
-                    '3. Elige las fotos de tu dispositivo\n' +
-                    '4. Agrega título, mensaje y lugar\n' +
-                    '5. Elige visibilidad (Familia o Privada)\n' +
-                    '6. Presiona "Guardar recuerdo"');
-            } else if (choice === '5') {
-                alert('REPORTAR PROBLEMA\n\n' +
-                    'Para reportar un problema, envía un correo a:\n' +
-                    'soporte@familia.com\n\n' +
-                    'Incluye una descripción detallada del problema\n' +
-                    'y, si es posible, capturas de pantalla.');
-            } else if (choice !== null) {
-                showToast('Opción no válida');
-            }
-        }
-
-        // ============================================================
         // 22. INICIALIZACIÓN
         // ============================================================
         function init() {
@@ -5756,7 +5729,6 @@
 
             setupEvents();
 
-            // Si no hay familia, mostrar estado
             if (STATE.isLoggedIn && (!STATE.currentFamilyId || STATE.families.length === 0)) {
                 showNoFamilyState();
             }
@@ -5777,7 +5749,7 @@
         }
 
         // ============================================================
-        // FIN PARTE 3 — PROYECTO COMPLETO
+        // FIN DE LA IIFE - SE CIERRA AQUÍ
         // ============================================================
     })();
 </script>
